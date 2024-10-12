@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
 	 * @constructor
 	 */
 	ngOnInit(): void {
+		//aaa
 		// this._backendConfigService.getBackendConfig()
 		// .pipe( untilCmpDestroyed( this ) )
 		// .subscribe();
