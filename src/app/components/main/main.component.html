@@ -1,0 +1,8 @@
+<div class="layout-row h-full">
+    <div class="left-page">
+        <sidebar (selectedChatIdEvent)="chatId = $event"></sidebar>
+    </div>
+    <div class="right-page">
+        <header [chatId]="chatId"></header>
+    </div>
+</div>

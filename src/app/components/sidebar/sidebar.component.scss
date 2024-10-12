@@ -1,0 +1,20 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+
+    .sidebar-container {
+        width: 100%;
+        height: 100%;
+
+        .title {
+            font-weight: bold;
+            font-size: 20px;
+            color: var(--bosch-eet);
+            text-wrap: nowrap;
+        }
+
+    }
+}

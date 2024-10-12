@@ -1,0 +1,11 @@
+<ng-template>
+    <div
+        class="bc-dropdown-content"
+        [style.width]="width"
+        [style.maxWidth]="maxWidth"
+        [style.minWidth]="minWidth"
+        [style.maxHeight]="maxHeight"
+        (click)="!disableClose && closed?.emit()">
+        <ng-content></ng-content>
+    </div>
+</ng-template>

@@ -1,0 +1,25 @@
+<div class="bc-input-upload">
+    <div class="layout-row align-items-center flex-wrap">
+        <bc-button
+            icon="boschicon-bosch-ic-upload"
+            [content]="label"
+            [disabled]="disabled"
+            (onClick)="fileInput?.click()"
+        >
+        </bc-button>
+        <div
+            *ngIf="file?.name"
+            class="ml-10 field-name"
+            [class.disabled]="disabled">
+            {{ file?.name }}
+        </div>
+    </div>
+    
+    <input
+        #fileInput
+        type="file"
+        [accept]="accept"
+        (change)="onChange($event)"
+        (click)="resetUploadedDocuments($event)"
+    />
+</div>

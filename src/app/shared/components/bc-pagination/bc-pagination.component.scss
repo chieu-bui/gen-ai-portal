@@ -1,0 +1,24 @@
+.bc-pagination {
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    -webkit-user-select: none;
+
+    .bc-pagination__item {
+        cursor: pointer;
+        font-size: 14px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+
+        &:hover {
+            background-color: var(--bosch-gray-80);
+        }
+
+        &.active {
+            color: var(--bosch-white);
+            background-color: var(--bosch-blue-40);
+            
+        }
+    }
+}

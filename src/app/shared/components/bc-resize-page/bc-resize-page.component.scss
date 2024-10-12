@@ -1,0 +1,42 @@
+.bc-resize-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    -webkit-user-select: var(--user-select);
+    user-select: var(--user-select);
+
+    .left-page,
+    .right-page {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--bosch-white);
+
+        .header {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .content {
+            overflow: auto;
+            height: 100%;
+        }
+    }
+
+    .left-page {
+        width: var(--left-resize-page-width);
+    }
+
+    .right-page {
+        width: var(--right-resize-page-width);
+    }
+
+    .resize {
+        height: 100%;
+        cursor: e-resize;
+        width: var(--resize-width);
+        background-color: var(--bosch-white);
+    }
+
+}

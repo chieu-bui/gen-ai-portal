@@ -1,0 +1,13 @@
+.bc-menu-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    [bcFormFieldInput] {
+        padding-right: 55px;
+    }
+
+    .bg-focus {
+        background-color: var(--bosch-blue-90);
+    }
+}

@@ -1,0 +1,19 @@
+@if ( imgLink ) {
+    <img
+        [src]="imgLink"
+        [tooltip]="hoverMsg"
+        [hidden]="!hoverMsg"
+        [class.bc-avatar__small]="size === 'small'"
+        [class.bc-avatar__medium]="size === 'medium'"
+        [class.bc-avatar__large]="size === 'large'"
+    />
+} @else {
+    <div
+        [style.backgroundColor]="'var(--bosch-neutral)'"
+        [tooltip]="hoverMsg"
+        [hidden]="!hoverMsg"
+        [class.bc-avatar__small]="size === 'small'"
+        [class.bc-avatar__medium]="size === 'medium'"
+        [class.bc-avatar__large]="size === 'large'">
+    </div>
+}

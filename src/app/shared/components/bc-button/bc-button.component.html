@@ -1,0 +1,13 @@
+<div
+    class="layout-row align-items-center margin-auto"
+    [class]="classCustom"
+    [style]="styleCustom"
+    [hidden]="!tooltipMsg"
+    [tooltip]="tooltipMsg"
+    [position]="tooltipPosition"
+>
+    @if ( loading ) { <bc-loader color="var(--bosch-gray-80)"></bc-loader> }
+    @else if ( icon ) { <i [class]="icon"></i> }
+    <div class="mr-10" *ngIf="( loading || icon ) && content"></div>
+    <span *ngIf="content" style="text-wrap: nowrap;">{{ content }}</span>
+</div>

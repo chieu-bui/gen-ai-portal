@@ -1,0 +1,7 @@
+<span
+    *ngFor="let bcRadio of bcRadioTemplate; let index = index; let last = last;"
+    class="w-fit-content"
+    [class.mb-10]="!last"
+    (click)="onClick(index)" >
+    <ng-container *ngTemplateOutlet="bcRadio"></ng-container>
+</span>

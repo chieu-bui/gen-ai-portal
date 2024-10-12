@@ -1,0 +1,16 @@
+.bc-divider {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color);
+
+    &.bc-divider__vertical {
+        height: 100%;
+        width: var(--thickness);
+    }
+
+    &.bc-divider__horizontal {
+        width: 100%;
+        height: var(--thickness);
+    }
+
+}

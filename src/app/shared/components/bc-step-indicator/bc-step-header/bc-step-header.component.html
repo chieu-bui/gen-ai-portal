@@ -1,0 +1,13 @@
+<ng-template let-active="active" let-order="order">
+    <div class="bc-step-header">
+        <div
+            class="bc-step-header__icon"
+            [class.disabled]="!active">
+            @if ( icon ) { <i [class]="icon"></i> }
+            @else { <span>{{ order + 1 }}</span> }
+            <div class="bc-step-header__label" [class]="classLabel" [style]="styleLabel">
+                {{ label }}
+            </div>
+        </div>
+    </div>
+</ng-template>

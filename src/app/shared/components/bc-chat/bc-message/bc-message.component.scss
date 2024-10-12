@@ -1,0 +1,12 @@
+.bc-message {
+    display: flex;
+    flex-direction: column;
+
+    .receive {
+        padding: 10px;
+        border-radius: 30px;
+        margin-bottom: 10px;
+        background-color: var(--bosch-gray-95);
+    }
+
+}

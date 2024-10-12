@@ -1,0 +1,36 @@
+<bc-button
+    content="Create New Chat"
+    type="primary"
+    classCustom="font-weight-bold"
+    style="width: 100%;"
+    class="mb-10"
+    (onClick)="createChat()">
+</bc-button>
+<bc-search-box
+    height="50px"
+    placeHolder="Search chat's window..."
+    (onSearchChange)="onSearch($event)">
+</bc-search-box>
+<div class="mb-10"></div>
+
+@if ( dspChatlist?.length ) {
+    <div class="chat-list-container">
+        <div
+            class="chat-item"
+            *ngFor="let chatItem of dspChatlist; trackBy: trackByFunc;"
+            [class.active]="activeId === chatItem?.id"
+            (click)="setActiveChat(chatItem?.id)">
+            <bc-truncate position="top">{{ chatItem?.title }}</bc-truncate>
+        </div>
+    </div>   
+} @else {
+    <div class="chat-list-empty">
+        <div class="layout-row flex-direction-column align-items-center">
+            <i
+                class="a-icon ui-ic-alert-info"
+                style="font-size: 70px; color: var(--bosch-warning);">
+            </i>
+            <div class="title">There is no chat's window</div>
+        </div>
+    </div>
+}

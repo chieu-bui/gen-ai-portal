@@ -1,0 +1,41 @@
+.bc-dialog-confirm {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    font: normal normal 300 16px/19px Bosch Sans;
+
+    .bc-dialog-confirm__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--bosch-gray-90);
+
+        .bc-dialog-confirm__header__title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    }
+
+    .bc-dialog-confirm__content {
+        margin-top: 10px;
+
+        .message {
+            font-size: 18px;
+        }
+
+        .hint {
+            font-size: 15px;
+            margin-top: 5px;
+            color: var(--bosch-red);
+        }
+    }
+
+    .bc-dialog-confirm__footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+}

@@ -1,0 +1,58 @@
+.bc-button {
+    display: flex;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+
+    &.disabled {
+        &__primary {
+            color: var(--bosch-gray-45);
+            background-color: var(--bosch-gray-80);
+            cursor: default;
+        }
+
+        &__secondary {
+            color: var(--bosch-gray-80);
+            border: 1px solid var(--bosch-gray-80);
+            background-color: var(--bosch-white);
+            cursor: default;
+        }
+
+        &__tertiary,
+        &__integrated {
+            color: var(--bosch-gray-80);
+            cursor: default;
+        }
+    }
+
+    @mixin type-button($name, $color, $bgColor, $hoverColor) {
+        &.#{$name} {
+            background-color: #{$bgColor};
+            color: #{$color};
+            border: 1px solid transparent;
+
+            &:hover {
+                background-color: #{$hoverColor};
+            }
+        }
+    }
+
+    &.primary {
+        @include type-button(primary, var(--bosch-white), var(--bosch-blue), var(--bosch-blue-40));
+    }
+
+    &.secondary {
+        @include type-button(secondary, var(--bosch-blue), var(--bosch-white), var(--bosch-blue-90));
+        border-color: var(--bosch-blue) !important;
+    }
+
+    &.tertiary {
+        @include type-button(tertiary, var(--bosch-blue), var(--bosch-white), var(--bosch-blue-90));
+    }
+
+    &.integrated {
+        &:hover {
+            color: var(--bosch-blue);
+        }
+    }
+
+}

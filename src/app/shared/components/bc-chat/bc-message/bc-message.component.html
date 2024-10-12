@@ -1,0 +1,10 @@
+@if ( isAIResponse ) {
+    <div class="layout-row align-items-center justify-content-flex-start">
+        <div [innerHTML]="content | safeHtml"></div>
+    </div>
+} @else {
+    <div  class="layout-row align-items-center justify-content-flex-end">
+        <div style="width: 5%;"></div>
+        <div class="receive" [innerHTML]="content | safeHtml"></div>
+    </div>
+}

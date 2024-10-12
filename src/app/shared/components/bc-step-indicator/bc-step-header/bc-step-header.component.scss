@@ -1,0 +1,43 @@
+.bc-step-header {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+
+    .bc-step-header__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-bottom: 5px;
+        min-width: 32px;
+        min-height: 32px;
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+        margin: 0 auto;
+        position: relative;
+        color: var(--bosch-white);
+        background-color: var(--bosch-blue);
+
+        &.disabled {
+            color: var(--bosch-gray-45);
+            background-color: var(--bosch-gray-80);
+
+            .bc-step-header__label {
+                color: var(--bosch-gray-45);
+            }
+        }
+
+        .bc-step-header__label {
+            text-align: center;
+            position: absolute;
+            top: 35px;
+            font-size: 14px;
+            font-weight: normal;
+            color: var(--bosch-black);
+            min-width: 200px;
+        }
+    }
+
+
+}

@@ -1,0 +1,15 @@
+<bc-notification
+    *ngIf="( notification$ | async ) as data"
+    [showCloseBtn]="true"
+    [bannerState]="data?.bannerState"
+    [state]="data?.state"
+    (close)="close()"
+>
+    <ng-template #leftSide>
+        <i [class]="getIcon( data?.state )"></i>
+    </ng-template>
+
+    <ng-template #rightSide>
+        <div>{{ data?.content }}</div>
+    </ng-template>
+</bc-notification>

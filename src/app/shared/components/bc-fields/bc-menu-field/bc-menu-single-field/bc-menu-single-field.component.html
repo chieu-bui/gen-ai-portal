@@ -1,0 +1,55 @@
+<bc-form-field
+    [dropdownTriggerFor]="menu"
+    [isSyncWidth]="true"
+    [style.width]="width"
+    (menuOpen)="isMenuOpen = true"
+    (menuClose)="isMenuOpen = false"
+>
+    <div bcFormFieldLabel *ngIf="label">
+        {{ label }}
+    </div>
+
+    <input
+        readonly
+        bcFormFieldInput
+        #eleRef
+        type="text"
+        [style.width]="width"
+        [style.height]="height"
+        [class.bg-focus]="isMenuOpen"
+        [tooltip]="dspLabel"
+        [hidden]="!isTruncate"
+        [position]="position"
+        [ngModel]="dspLabel"
+        [disabled]="disabled"
+    />
+    <bc-button
+        bcFormFieldIcon
+        type="integrated"
+        *ngIf="!disabled"
+        [icon]="isMenuOpen ? 'ui-ic-up' : 'ui-ic-down'"
+    >
+    </bc-button>
+</bc-form-field>
+
+<bc-dropdown #menu>
+    <bc-search-box
+        (onSearchChange)="onSearch($event)"
+        (click)="preventDefault($event)">
+    </bc-search-box>
+    <div class="bc-menu" *ngIf="isMenuOpen">
+        <ng-template #notFound>
+            <div class="bc-menu__not-found">Nothing here matches your search</div>
+        </ng-template>
+        <ng-container *ngIf="dspOptions?.length; else notFound">
+            <div
+                class="bc-menu__item"
+                *ngFor="let option of dspOptions; trackBy: trackByFunc"
+                [class.active]="option?.value && option?.value === dspValue"
+                [class.disabled]="option?.disabled"
+                (click)="option?.disabled ? preventDefault($event) : onChange(option)">
+                <bc-truncate position="top">{{ option?.label }}</bc-truncate>
+            </div>
+        </ng-container>
+    </div>
+</bc-dropdown>

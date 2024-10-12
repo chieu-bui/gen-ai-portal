@@ -1,0 +1,180 @@
+<div class="bc-table">
+    <div class="bc-table-container">
+        <div class="bc-table__scroll" (scroll)="isScroll = !!$any($event?.target)?.scrollTop">
+            <table stickyTable class="w-full">
+                <ng-template
+                    #headersTemplate
+                    let-headers="headers"
+                    let-isGroupHeader="isGroupHeader"
+                    let-enableStickyLeft="enableStickyLeft"
+                >
+                    <tr [class.border-scroll]="isScroll" *ngIf="headers?.length">
+                        <ng-container *ngFor="let header of headers; let headerIndex = index; trackBy: trackByFn;">
+                            @if( isGroupHeader ) {
+                                <th
+                                    [style]="config?.customGroupHeaders?.[ headerIndex ]?.style"
+                                    [class]="config?.customGroupHeaders?.[ headerIndex ]?.class"
+                                    [class.header-group-border]="config?.fullBorder && header?.value"
+                                    [class.border-bottom]="!config?.fullBorder"
+                                    [attr.colspan]="header?.colspan || 1">
+                                    {{ header?.value }}
+                                </th>
+                            } @else {
+                                <th
+                                    stickyLeft="header"
+                                    [stickyPosition]="headerIndex"
+                                    [stickyRangeWidth]="!!enableStickyLeft ? config?.stickyLeftColWidths : []"
+                                    [style]="config?.customHeaders?.[ headerIndex ]?.style"
+                                    [class]="config?.customHeaders?.[ headerIndex ]?.class"
+                                    [class.border-bottom]="!config?.fullBorder"
+                                    [class.header-border]="config?.fullBorder && header?.value">
+                                    {{ header?.value }}
+                                </th>
+                            }
+                        </ng-container>
+
+                        <ng-container *ngIf="enableAction">
+                            @if( isGroupHeader ) { <th class="border-left"></th> }
+                            @else { <th [class]="config?.fullBorder ? 'header-border' : 'border-bottom'">Action</th> }
+                        </ng-container>
+                    </tr>
+                </ng-template>
+
+                <ng-template
+                    #rowsTemplate
+                    let-rows="rows"
+                    let-enableStickyLeft="enableStickyLeft"
+                    let-isAddNewRow="isAddNewRow"
+                >
+                    <ng-container *ngFor="let row of rows; let last = last; let rowIndex = index; trackBy: trackByFn;">
+                        <tr
+                            [class]="rowIndex % 2 === 0 ? 'bg-odd-row' : 'bg-even-row'"
+                            (click)="expand(rowIndex)">
+                            <td
+                                stickyLeft="row"
+                                [stickyPosition]="cellIndex"
+                                [stickyRangeWidth]="!!enableStickyLeft ? config?.stickyLeftColWidths : []"
+                                *ngFor="let cell of row?.cells; let cellIndex = index; trackBy: trackByFn;"
+                                [attr.rowspan]="config?.customRows?.[ cellIndex ]?.rowspan || 1"
+                                [class.cell-border]="config?.fullBorder"
+                                [class.border-bottom]="!config?.fullBorder || last"
+                                [class.border-error]="row?.error"
+                                [style]="config?.customRows?.[ cellIndex ]?.style"
+                                [class]="config?.customRows?.[ cellIndex ]?.class">
+                                <ng-container [ngSwitch]="config?.typeColumns?.[cellIndex] || 'text'">
+                                    <bc-radio-group
+                                        *ngSwitchCase="CELL_TYPE?.RADIO"
+                                        [value]="radioValue"
+                                        (onChange)="onRadioSelect($event)">
+                                        <bc-radio [value]="cell?.value"></bc-radio>
+                                    </bc-radio-group>
+                                    <bc-table-input-field
+                                        *ngSwitchDefault
+                                        [editable]="row?.isEdit"
+                                        [type]="config?.typeColumns?.[cellIndex]  || 'text'"
+                                        [error]="row?.error"
+                                        [line]="config?.line"
+                                        [(value)]="cell.value">
+                                    </bc-table-input-field>
+                                </ng-container>
+                            </td>
+                            <td
+                                class="w-100"
+                                *ngIf="enableAction"
+                                [class.cell-border]="config?.fullBorder"
+                                [class.border-bottom]="!config?.fullBorder || last"
+                                >
+                                <div class="layout-row align-items-center justify-content-center">
+                                    @if ( row?.isEdit ) {
+                                        <bc-button
+                                            type="integrated"
+                                            icon="boschicon-bosch-ic-checkmark"
+                                            style="padding: 0"
+                                            tooltipMsg="Save"
+                                            (onClick)="!!isAddNewRow ? saveNewData() : onRowSave( rowIndex )">
+                                        </bc-button>
+                                        <bc-button
+                                            type="integrated"
+                                            icon="boschicon-bosch-ic-close"
+                                            class="ml-5"
+                                            style="padding: 0"
+                                            tooltipMsg="Cancel"
+                                            (onClick)="!!isAddNewRow ? clearAddDefaultRowValueCell() : onRowCancel( rowIndex )">
+                                        </bc-button>
+                                    } @else {
+                                        <bc-button
+                                            type="integrated"
+                                            icon="boschicon-bosch-ic-arrow-right"
+                                            style="padding: 0"
+                                            tooltipMsg="Access"
+                                            *ngIf="config?.canAccess"
+                                            (onClick)="onRowAccess( row )">
+                                        </bc-button>
+                                        <bc-button
+                                            type="integrated"
+                                            icon="boschicon-bosch-ic-edit"
+                                            style="padding: 0"
+                                            tooltipMsg="Edit"
+                                            *ngIf="config?.canEdit"
+                                            (onClick)="onRowEdit( row )">
+                                        </bc-button>
+                                        <bc-button
+                                            type="integrated"
+                                            icon="boschicon-bosch-ic-delete"
+                                            class="ml-5"
+                                            style="padding: 0"
+                                            tooltipMsg="Delete"
+                                            *ngIf="config?.canDelete"
+                                            (onClick)="onRowDelete( rowIndex )">
+                                        </bc-button>
+                                        <bc-button
+                                            type="integrated"
+                                            class="ml-5"
+                                            style="padding: 0"
+                                            *ngIf="expandTemplate"
+                                            [icon]="expandRowAIdx === rowIndex ? 'boschicon-bosch-ic-up' : 'boschicon-bosch-ic-down'"
+                                            [tooltipMsg]="expandRowAIdx === rowIndex ? 'Collapse' : 'Expand'">
+                                        </bc-button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="expandTemplate && expandContext && expandRowAIdx === rowIndex">
+                            <td style="padding: 0" [attr.colspan]="enableAction ? headers?.length + 1 : headers?.length">
+                                <ng-container *ngTemplateOutlet="expandTemplate; context: expandContext"></ng-container>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </ng-template>
+
+                <thead stickyTop>
+                    <ng-container *ngTemplateOutlet="headersTemplate; context: { headers: groupHeaders, isGroupHeader: true }"></ng-container>
+                    <ng-container *ngTemplateOutlet="headersTemplate; context: { headers: headers, enableStickyLeft: !groupHeaders?.length }"></ng-container>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="isAdd">
+                        <ng-container *ngTemplateOutlet="rowsTemplate;
+                            context: {
+                                rows: [ defaultRow ],
+                                enableStickyLeft: !groupHeaders?.length,
+                                isAddNewRow: true,
+                            }"></ng-container>
+                    </ng-container>
+                    
+                    <ng-container *ngTemplateOutlet="rowsTemplate; context: { rows: dspRows, enableStickyLeft: !groupHeaders?.length }"></ng-container>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <bc-button
+                content="Add New Row"
+                type="integrated"
+                style="padding: 0"
+                class="mt-5"
+                *ngIf="config?.canAdd"
+                [disabled]="isAdd"
+                (onClick)="isAdd = true">
+            </bc-button>
+        </div>
+    </div>
+</div>

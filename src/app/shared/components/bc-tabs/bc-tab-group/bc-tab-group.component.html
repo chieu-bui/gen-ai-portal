@@ -1,0 +1,22 @@
+<div
+    class="bc-tab-group__label-container"
+    [class.left]="position === 'left'"
+    [class.center]="position === 'center'"
+    [class.right]="position === 'right'"
+>
+    <ng-container *ngFor="let tabLabel of tabLabels; let index = index;">
+        <div class="layout-row flex-direction-column" [class.w-full]="stretch">
+            <div
+                class="bc-tab-group__label"
+                [class.active]="activeTab === index"
+                (click)="onChangeTab( index )">
+                <ng-container *ngTemplateOutlet="tabLabel"></ng-container>
+            </div>
+            <div class="divider" [class.hidden]="activeTab !== index"></div>
+        </div>
+    </ng-container>
+</div>
+
+<div class="bc-tab-group__content" >
+    <ng-container *ngTemplateOutlet="tabContents[ activeTab ]"></ng-container>
+</div>

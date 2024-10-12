@@ -1,0 +1,25 @@
+<div class="bc-dialog-confirm">
+    <div class="bc-dialog-confirm__header">
+        <div class="bc-dialog-confirm__header__title">Confirmation</div>
+        <bc-button icon="ui-ic-close" type="integrated" style="padding: 0" (onClick)="close()"></bc-button>
+    </div>
+
+    <div class="bc-dialog-confirm__content">
+        <div class="message">{{ data?.content }}</div>
+        <div class="hint">*{{ data?.hint }}</div>
+    </div>
+
+    <div class="bc-dialog-confirm__footer">
+        <bc-button
+            type="secondary"
+            [content]="data?.noBtn || 'No'"
+            (click)="onClick()" >
+        </bc-button>
+
+        <bc-button
+            class="ml-5"
+            [content]="data?.noBtn || 'Yes'"
+            (click)="onClick( true )" >
+        </bc-button>
+    </div>
+</div>

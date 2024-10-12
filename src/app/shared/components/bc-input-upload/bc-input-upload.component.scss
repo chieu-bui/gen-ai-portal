@@ -1,0 +1,22 @@
+.bc-input-upload {
+    display: flex;
+    flex-direction: column;
+
+    input {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1;
+        overflow: hidden;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        white-space: nowrap;
+        width: 1;
+    }
+
+    .field-name {
+        &.disabled {
+            color: var(--bosch-gray-80);
+        }
+    }
+}

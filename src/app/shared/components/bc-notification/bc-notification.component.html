@@ -1,0 +1,13 @@
+<div class="layout-row justify-content-space-between">
+    <div class="layout-row justify-content-space-between">
+        <ng-container *ngTemplateOutlet="leftSide"></ng-container>
+        <div class="mr-15"></div>
+        <ng-container *ngTemplateOutlet="rightSide"></ng-container>
+    </div>
+    <button
+        class="icon-button"
+        *ngIf="showCloseBtn"
+        (click)="close?.emit()">
+        <i class="a-icon ui-ic-close"></i>
+    </button>
+</div>

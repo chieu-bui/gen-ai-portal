@@ -1,0 +1,52 @@
+.bc-radio {
+    display: flex;
+    flex-direction: column;
+
+    .bc-radio-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        .disabled-content {
+            cursor: default;
+            color: var(--bosch-gray-80);
+        }
+
+        input {
+            width: 20px;
+            height: 20px;
+            font-size: 1em;
+            appearance:none;
+            -moz-appearance: none;
+            box-shadow: none;
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+            border-radius: 50%;
+            cursor: pointer;
+            background-color: var(--bosch-gray-45);
+
+            &:hover {
+                background-color: var(--bosch-gray-55);
+            }
+
+            &:checked {
+                background-color: var(--bosch-white);
+                border: 5px solid var(--bosch-blue);
+
+                &:hover {
+                    border-color: var(--bosch-blue-40);
+                }
+
+                &:disabled {
+                    border-color: var(--bosch-gray-90);
+                }
+            }
+
+            &:disabled {
+                cursor: default;
+                background-color: var(--bosch-gray-80);
+            }
+        }
+    }
+}

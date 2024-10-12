@@ -1,0 +1,32 @@
+.bc-progress-indicator {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    background-color: var(--bosch-gray-85);
+    
+    .bc-progress-dynamic,
+    .bc-progress-manual {
+        height: 100%;
+        background-color: var(--bosch-blue);
+        position: absolute;
+    }
+
+    .bc-progress-manual {
+        width: var(--percent-value);
+    }
+
+    
+    .bc-progress-dynamic {
+        @keyframes progress-bar {
+            0% { left: 0 };
+            100% { left: 90% };
+        }
+
+        width: 10%;
+        animation-duration: 2.5s;
+        animation-name: progress-bar;
+        animation-iteration-count: infinite;
+    }
+
+}

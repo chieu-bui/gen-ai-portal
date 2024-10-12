@@ -1,0 +1,32 @@
+$small: 30px;
+$medium: 45px;
+$large: 55px;
+
+.bc-avatar {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+
+    .bc-avatar__small,
+    .bc-avatar__medium,
+    .bc-avatar__large {
+        vertical-align: middle;
+        border-radius: 50%;
+    }
+
+    .bc-avatar__small {
+        height: $small;
+        width: $small;
+    }
+
+    .bc-avatar__medium {
+        height: $medium;
+        width: $medium;
+    }
+
+    .bc-avatar__large {
+        height: $large;
+        width: $large;
+    }
+    
+}

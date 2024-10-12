@@ -1,0 +1,7 @@
+<ng-container *ngIf="isStringTooltip; else showTemplateToolip;">
+    {{ tooltip }}
+</ng-container>
+
+<ng-template #showTemplateToolip>
+    <ng-container *ngTemplateOutlet="tooltip"></ng-container>
+</ng-template>

@@ -1,0 +1,9 @@
+<span
+    #eleRef
+    class="truncate-text"
+    [tooltip]="isTruncate ? content : ''"
+    [hidden]="!isTruncate"
+    [position]="position"
+    [style.maxWidth]="maxWidth">
+    <ng-content></ng-content>
+</span>

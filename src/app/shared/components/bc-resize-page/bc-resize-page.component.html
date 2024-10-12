@@ -1,0 +1,38 @@
+<div #page class="layout-row h-full">
+    <div
+        #leftPage
+        class="left-page"
+        [class.hidden]="!leftPercentWidth">
+        <div class="content">
+            <ng-container *ngTemplateOutlet="leftResizePage"></ng-container>
+        </div>
+    </div>
+
+    <div
+        #resize
+        class="resize"
+        [class]="{
+            'pr-10': rightPercentWidth, 'pr-1': !rightPercentWidth,
+            'pl-10': leftPercentWidth, 'pl-1': !leftPercentWidth,
+        }"
+        [class.display-none]="!open"
+        (mouseenter)="setStyleDivider(true)"
+        (mouseleave)="setStyleDivider()">
+        <bc-divider class="margin-auto" [vertical]="true"></bc-divider>
+    </div>
+
+    <div
+        #rightPage
+        class="right-page"
+        [class.display-none]="!open && !rightPercentWidth">
+        <div
+            class="layout-row align-items-center"
+            [class]="headerRightSide ? 'justify-content-space-between' : 'justify-content-flex-end'">
+            <div class="header" *ngIf="headerRightSide">{{ headerRightSide }}</div>
+        </div>
+        <div class="content">
+            <ng-container *ngTemplateOutlet="rightResizePage"></ng-container>
+        </div>
+        
+    </div>
+</div>

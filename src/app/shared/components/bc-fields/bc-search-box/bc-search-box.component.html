@@ -1,0 +1,65 @@
+<bc-form-field
+    [dropdownTriggerFor]="searchMenu && searchBoxMenu"
+    [isSyncWidth]="true"
+    [style.width]="width">
+    <div class="layout-row pos-relative">
+        <div bcFormFieldLabel *ngIf="label">{{ label }}</div>
+        <input
+            bcFormFieldInput
+            type="text"
+            #eleRef
+            [tooltip]="searchControl?.value"
+            [hidden]="!isTruncate"
+            [placeholder]="placeHolder"
+            [formControl]="searchControl"
+            [disableControl]="disabled"
+            [style.width]="width"
+            [style.height]="height"
+            (change)="checkTooltip()"
+        />
+        <bc-button
+            bcFormFieldIcon
+            type="integrated"
+            icon="ui-ic-close"
+            style="right: 40px"
+            *ngIf="searchControl?.value"
+            [disabled]="disabled"
+            (onClick)="onClear()"
+        >
+        </bc-button>
+        <bc-button
+            bcFormFieldIcon
+            type="integrated"
+            icon="ui-ic-search"
+            [disabled]="disabled"
+            (onClick)="onSearch()"
+        >
+        </bc-button>
+    </div>
+</bc-form-field>
+
+<bc-dropdown #searchBoxMenu>
+    <div class="bc-menu">
+        @if ( isLoading ) {
+            <div class="layout-row align-items-center justify-content-center">
+                <div class="layout-row flex-direction-column align-items-center p-20">
+                    <bc-loader></bc-loader>
+                    <div class="mt-10" style>Searching...</div>
+                </div>  
+            </div>
+        } @else {
+            <ng-template #notFound>
+                <div class="bc-menu__not-found">Nothing here matches your search</div>
+            </ng-template>
+
+            <ng-container *ngIf="dspOptions?.length; else notFound">
+                <div
+                    class="bc-menu__item"
+                    *ngFor="let option of dspOptions; trackBy: trackByFn"
+                    (click)="onChange( option )">
+                    <bc-truncate position="top">{{ option?.label }}</bc-truncate>
+                </div>
+            </ng-container>
+        }
+    </div>
+</bc-dropdown>

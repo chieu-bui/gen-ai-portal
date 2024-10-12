@@ -1,0 +1,30 @@
+<div class="container">
+    <!-- send -->
+    <bc-message [content]="content1"></bc-message>
+
+    <!-- receive -->
+    <bc-message isAIResponse [content]="content2"></bc-message>
+</div>
+
+<div class="footer">
+    <bc-auto-resize-textarea
+        customBorder="none"
+        [control]="control"
+        (pressEnterEvent)="start()">
+    </bc-auto-resize-textarea>
+
+    @if ( isGenerating ) {
+        <bc-button
+            type="integrated"
+            icon="boschicon-bosch-ic-stop-frame"
+            (onClick)="stop()">
+        </bc-button>
+    } @else {
+        <bc-button
+            type="integrated"
+            icon="boschicon-bosch-ic-arrow-up-frame"
+            [disabled]="control?.invalid"
+            (onClick)="start()">
+        </bc-button>
+    }
+</div>

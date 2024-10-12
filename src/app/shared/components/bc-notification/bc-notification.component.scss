@@ -1,0 +1,45 @@
+.bc-notification {
+    padding: 20px;
+    width: 100%;
+
+    &__infor {
+        background-color: var(--bosch-neutral);
+    }
+
+    &__error {
+        background-color: var(--bosch-error);
+    }
+
+    &__warning {
+        background-color: var(--bosch-warning);
+    }
+
+    &__success {
+        background-color: var(--bosch-success);
+    }
+
+    &__banner--bottom {
+        position: absolute;
+        bottom: 0;
+    }
+
+    &__banner--top {
+        position: absolute;
+        top: 0;
+    }
+
+    .icon-button {
+        padding: 0;
+        margin-left: 30px;
+        border: none;
+        background-color: transparent;
+
+        &:not(:disabled) {
+            &:hover {
+                color: var(--bosch-blue);
+                cursor: pointer;;
+            }
+        }
+    }
+
+}

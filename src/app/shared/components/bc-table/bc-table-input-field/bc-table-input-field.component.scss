@@ -1,0 +1,36 @@
+.bc-table-input-field {
+    display: block;
+    width: inherit;
+}
+
+.bc-table-input-field__textarea {
+    resize: none;
+    border: none;
+    outline: 1px solid var(--bosch-gray-90);
+    padding: 10px;
+    width: 100%;
+
+    &.error {
+        outline-color: var(--bosch-red);
+    }
+}
+
+.bc-table-input-field__textarea__error {
+    color: var(--bosch-red);
+}
+
+.bc-table-input-field__value {
+    width: fit-content;
+
+    &.view {
+        color: var(--bosch-gray-45);
+    }
+
+    &.editable {
+        color: var(--bosch-black);
+    }
+
+    &.error {
+        color: var(--bosch-red);
+    }
+}

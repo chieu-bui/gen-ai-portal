@@ -1,0 +1,55 @@
+$smallSize: 20px;
+$smallFontSize: 16px;
+
+.bc-checkbox {
+    @mixin checked-icon( $size, $fontSize ) {
+        content: "\2714";
+        width: $size;
+        height: $size;
+        font-size: $fontSize;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    width: $smallSize;
+    height: $smallSize;
+    background-color: var(--bosch-gray-45);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--bosch-gray-55);
+    }
+
+    &:not(&.disabled) {
+        &.checked {
+            background-color: var(--bosch-blue);
+    
+            &::after {
+                @include checked-icon($smallSize, $smallFontSize);
+                color: var(--bosch-white);
+            }
+    
+            &:hover {
+                background-color: var(--bosch-blue-40);
+            }
+        }
+    }
+
+    &.disabled {
+        cursor: default;
+        background-color: var(--bosch-gray-90);
+
+        &.checked {
+            &::after {
+                @include checked-icon($smallSize, $smallFontSize);
+                color: var(--bosch-black);
+                opacity: 0.4;
+            }
+        }
+    }
+
+    
+    
+}

@@ -1,0 +1,54 @@
+.bc-tab-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
+
+    .divider {
+        height: 2px;
+        background-color: var(--bosch-blue-70);
+    }
+
+    .bc-tab-group__label-container {
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid var(--bosch-gray-75);
+
+        &.left {
+            justify-content: flex-start;
+        }
+
+        &.center {
+            justify-content: center;
+        }
+
+        &.right {
+            justify-content: flex-end;
+        }
+    }
+
+    .bc-tab-group__label {
+        padding: 10px;
+        text-align: center;
+        white-space: nowrap;
+        cursor: pointer;
+
+        &:hover,
+        &.active {
+            color: var(--bosch-blue-70) !important;
+        }
+
+        &.active {
+            font-weight: bold;
+        }
+    }
+
+    .bc-tab-group__content {
+        margin-top: 10px;
+        height: 100%;
+        min-height: 0;
+    }
+
+}

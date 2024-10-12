@@ -1,0 +1,18 @@
+.bc-auto-resize-textarea {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .custom-textarea {
+        resize: none;
+        padding: 5px;
+        overflow: hidden;
+        font-size: 16px;
+        width: 100%;
+        outline: none;
+
+        &:hover {
+            background-color: var(--bosch-blue-90);
+        }
+    }
+}

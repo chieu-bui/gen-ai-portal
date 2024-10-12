@@ -1,0 +1,9 @@
+<div class="layout-row align-items-center justify-content-space-between">
+    <ng-container *ngFor="let stepHeader of stepHeaders; let last = last; let index = index;">
+        <ng-container
+            *ngTemplateOutlet="stepHeader?.templateRef;
+            context: { active: index === activeStep, order: index }">
+        </ng-container>
+        <bc-divider class="ml-10 mr-10" *ngIf="!last"></bc-divider>
+    </ng-container>
+</div>

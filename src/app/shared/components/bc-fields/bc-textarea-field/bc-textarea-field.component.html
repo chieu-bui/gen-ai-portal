@@ -1,0 +1,21 @@
+<bc-form-field>
+    <div bcFormFieldLabel *ngIf="label">
+        {{ label }}
+    </div>
+
+    <textarea
+        bcFormFieldTextArea
+        #eleRef
+        [rows]="rowsLength"
+        [placeholder]="placeHolder"
+        [formControl]="control"
+        [disableControl]="disabled"
+        [style.width]="width"
+        [style.height]="height"
+        (change)="checkTooltip()"
+    ></textarea>
+
+    <div bcFormFieldError [class.hidden]="!isError" *ngIf="!notShowError">
+        {{ control?.errors | formControlErrorMsg }}
+    </div>
+</bc-form-field>
