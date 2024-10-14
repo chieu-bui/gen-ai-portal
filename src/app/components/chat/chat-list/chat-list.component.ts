@@ -1,49 +1,40 @@
+import {
+    Component, EventEmitter, Input,
+    OnChanges, Output, SimpleChanges,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import _ from 'lodash';
 
-import { Unsubscriber, untilCmpDestroyed } from "@shared/decorator";
 import { BCTruncateComponent } from "@shared/components/bc-truncate/bc-truncate.component";
 import { BCSearchBoxComponent } from "@shared/components/bc-fields/bc-search-box/bc-search-box.component";
-import { ChatService } from "../services/chat.service";
-import { IChatItem } from "../interfaces/chat.interface";
 import { BCButtonComponent } from "@shared/components/bc-button/bc-button.component";
+import { IChatItem } from "../interfaces/chat.interface";
 
-@Unsubscriber()
 @Component({
     standalone: true,
     selector: 'chat-list',
     templateUrl: './chat-list.component.html',
     styleUrls: [ './chat-list.component.scss' ],
-    imports: [ CommonModule, BCTruncateComponent, BCSearchBoxComponent, BCButtonComponent ],
-    providers: [ ChatService ],
+    imports: [ CommonModule, BCTruncateComponent, BCSearchBoxComponent, BCButtonComponent ]
 })
-export class ChatListComponent implements OnInit {
+export class ChatListComponent implements OnChanges {
+
+    @Input() public chatList: IChatItem[];
+    @Input() public activeChatId: string;
 
     @Output() public selectedChatIdEvent: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public createChatEvent: EventEmitter<void> = new EventEmitter<void>();
 
     public dspChatlist: IChatItem[];
-    public activeId: string;
-
-    private _chatList: IChatItem[];
 
     /**
      * @constructor
-     * @param {ChatService} _chatService
+     * @param {SimpleChanges} changes
      */
-    constructor( private _chatService: ChatService ) {}
-
-    /**
-     * @constructor
-     */
-    ngOnInit(): void {
-        this._chatService.getList()
-        .pipe( untilCmpDestroyed( this ) )
-        .subscribe( ( chatitem: IChatItem[] ) => {
-            this._chatList = chatitem;
-            this.activeId = _.first( chatitem )?.id;
+    ngOnChanges( changes: SimpleChanges ): void {
+        if ( changes.chatList && changes.chatList.currentValue?.length ) {
             this.onSearch();
-        } );
+        }
     }
 
     /**
@@ -59,7 +50,6 @@ export class ChatListComponent implements OnInit {
      * @param {void}
      */
     public setActiveChat( id: string ) {
-        this.activeId = id;
         this.selectedChatIdEvent.emit( id );
     }
 
@@ -69,15 +59,15 @@ export class ChatListComponent implements OnInit {
      */
     public onSearch( search?: string ) {
         this.dspChatlist = search
-            ? _.filter( this._chatList, ( item: IChatItem ) => item.title.toLowerCase().includes( search.toLowerCase() ) )
-            : _.clone( this._chatList );
+            ? _.filter( this.chatList, ( item: IChatItem ) => item.title.toLowerCase().includes( search.toLowerCase() ) )
+            : _.clone( this.chatList );
     }
 
     /**
      * @param {void}
      */
     public createChat() {
-
+        this.createChatEvent.emit();
     }
 
 }

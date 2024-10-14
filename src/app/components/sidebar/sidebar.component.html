@@ -3,5 +3,10 @@
         <img src="assets/img/svg/eet.svg" class="pointer" (click)="navigate('/')"/>
         <div class="title">Gen AI Portal</div>
     </div>
-    <chat-list (selectedChatIdEvent)="onSelectedChat($event)"></chat-list>
+    <chat-list
+        [chatList]="chatList"
+        [activeChatId]="activeChatId"
+        (selectedChatIdEvent)="selectedChatIdEvent?.emit($event)"
+        (createChatEvent)="createChatEvent?.emit()">
+    </chat-list>
 </div>

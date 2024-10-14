@@ -4,7 +4,7 @@ const es = require('event-stream');
 const server = http.createServer((req, res) => {
     // Check if the request path is /stream
 
-    if (req.url === '/stream') {
+    if (req.url === '/stream' && req.method === 'POST') {
         // Set the response headers
         res.writeHead(200, {
             'Content-Type': 'text/event-stream',

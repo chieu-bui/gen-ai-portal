@@ -18,7 +18,7 @@
         <div
             class="chat-item"
             *ngFor="let chatItem of dspChatlist; trackBy: trackByFunc;"
-            [class.active]="activeId === chatItem?.id"
+            [class.active]="activeChatId === chatItem?.id"
             (click)="setActiveChat(chatItem?.id)">
             <bc-truncate position="top">{{ chatItem?.title }}</bc-truncate>
         </div>

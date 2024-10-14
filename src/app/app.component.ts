@@ -9,6 +9,8 @@ import { AppNotificationComponent } from '@components/app-notification/app-notif
 import { SseService } from '@shared/services/sse.service';
 import { BackendConfigService } from '@shared/services/backend-config.service';
 import { untilCmpDestroyed } from '@shared/decorator';
+import { HttpClient } from '@angular/common/http';
+import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Component({
 	standalone: true,
@@ -26,7 +28,8 @@ export class AppComponent implements OnInit {
 	constructor(
 		private _translateService: TranslateService,
 		private _backendConfigService: BackendConfigService,
-		// private sseService: SseService
+		private _httpClient: HttpClient,
+		private sseService: SseService
 	) {
 		this._translateService.use('en');
 	}
@@ -34,23 +37,25 @@ export class AppComponent implements OnInit {
 	/**
 	 * @constructor
 	 */
-	ngOnInit(): void {
-		// this._backendConfigService.getBackendConfig()
-		// .pipe( untilCmpDestroyed( this ) )
-		// .subscribe();
-	}
+	ngOnInit() {
+		fetch('http://localhost:3000/stream', {
+			method: 'POST',
+		})
+		.then( (res) => {
+			const reader = res.body.getReader();
 
-	// onClick() {
-	// 	this.sseService.getServerSentEvent('http://localhost:3000/stream')
-	// 	  .subscribe(ev => {
-	// 		console.log(ev);
-	// 	  },
-	// 	  (error) => {
-	// 		console.log(error);
-	// 	  },
-	// 	  () => {
-	// 		console.log('==> complete');
-	// 	  });
-	// }
+			reader.read().then( function pump({ done, value }) {
+				console.log( new TextDecoder().decode( value ) );
+				
+				if (done) {
+					// Do something with last chunk of data then exit reader
+					return;
+				  }
+			
+				  return reader.read().then( pump );
+
+			} )
+		})
+	}
 	
 }

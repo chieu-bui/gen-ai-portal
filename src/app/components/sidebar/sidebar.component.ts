@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { ChatListComponent } from "@components/chat/chat-list/chat-list.component";
+import { IChatItem } from "@components/chat/interfaces/chat.interface";
 
 @Component({
     standalone: true,
@@ -13,7 +14,11 @@ import { ChatListComponent } from "@components/chat/chat-list/chat-list.componen
 })
 export class SidebarComponent {
     
+    @Input() public chatList: IChatItem[];
+    @Input() public activeChatId: string;
+
     @Output() public selectedChatIdEvent: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public createChatEvent: EventEmitter<void> = new EventEmitter<void>();
 
     /**
 	 * @constructor
@@ -27,14 +32,6 @@ export class SidebarComponent {
      */
     public navigate( url: string ) {
         this._router.navigate([ url ]);
-    }
-
-    /**
-     * @param {string} id
-     * @return {void}
-     */
-    public onSelectedChat( id: string ) {
-        this.selectedChatIdEvent.emit( id );
     }
 
 }

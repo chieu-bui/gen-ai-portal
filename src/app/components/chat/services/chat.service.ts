@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { IChatItem, IChat, IChatResponse } from "../interfaces/chat.interface";
+import { IChatItem, IChat, IChatResponse, IPayloadChatComplete } from "../interfaces/chat.interface";
 import { Observable, Observer } from "rxjs";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ChatService {
 
     private _endPoint: string = 'chats';
@@ -123,6 +123,8 @@ export class ChatService {
                     created_at: 1727925528
                 }
             ]);
+
+            ob.complete();
         } );
         return this._httpClient.get<IChatItem[]>(`${this._endPoint}`);
     }
@@ -235,4 +237,13 @@ export class ChatService {
         } );
         return this._httpClient.get<IChatResponse>(`${this._endPoint}/${id}`);
     }
+
+    /**
+     * @param {IPayloadChatComplete} payload
+     * @return {Observable}
+     */
+	public completions( payload: IPayloadChatComplete ) {
+		return this._httpClient.post<any>(`${this._endPoint}/completions`, payload );
+	}
+
 }

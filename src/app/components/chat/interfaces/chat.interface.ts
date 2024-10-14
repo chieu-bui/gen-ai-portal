@@ -14,10 +14,10 @@ export interface IChat {
     id?: string;
     title: string;
     models: string[]; // [ "azure_openai" ]
-    params: IObject<string>;
-    history: IHistory;
-    tags: any[];
-    timestamp: string;
+    params?: IObject<string>;
+    history?: IHistory;
+    tags?: any[];
+    timestamp?: string;
 }
 
 export interface IChatResponse {
@@ -29,4 +29,20 @@ export interface IChatResponse {
     created_at: number;
     share_id: string;
     archived: boolean;
+}
+
+export interface IChatMessage { // store previous message 
+    role: string;
+    content: string;
+}
+
+
+export interface IPayloadChatComplete {
+    stream: boolean;
+    model: string,
+    stream_options?: IObject<any>;
+    messages: IChatMessage[];
+    session_id?: string;
+    chat_id: string;
+    id: string;
 }
