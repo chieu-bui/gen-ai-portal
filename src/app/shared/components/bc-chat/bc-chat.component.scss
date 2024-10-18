@@ -12,22 +12,28 @@
         height: 100%;
     }
 
-    .message {
-        display: flex;
-        align-items: center;
-
-        .content {
-            padding: 10px;
-            border-radius: 30px;
-            background-color: var(--bosch-gray-95);
-        }
-    }
-
     .footer {
         display: flex;
         align-items: center;
         padding: 5px;
         background-color: var(--bosch-gray-95);
+
+        .custom-icon {
+            font-size: 35px;
+            padding: 5px;
+            cursor: pointer;
+
+            &.disabled {
+                cursor: default;
+                color: var(--bosch-gray-80);
+            }
+
+            &:not(.disabled) {
+                &:hover {
+                    color: var(--bosch-blue);
+                }
+            }
+        }
     }
 
 }

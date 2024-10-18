@@ -2,16 +2,19 @@
     label="Models"
     height="50px"
     width="300px"
+    class="mb-10"
+    *ngIf="modelSelectedControl"
     [control]="modelSelectedControl"
     [options]="modelOptions">
 </bc-menu-single-field>
 
 <div class="container">
-    <!-- send -->
-    <bc-message [content]="content1"></bc-message>
-
-    <!-- receive -->
-    <bc-message isAIResponse [content]="content2"></bc-message>
+    <bc-message
+        *ngFor="let message of messages; trackBy: trackByFunc;"
+        [content]="message?.content"
+        [errorContent]="message?.errorContent"
+        [isAIResponse]="message?.role ==='assistant'">
+    </bc-message>
 </div>
 
 <div class="footer">
@@ -22,17 +25,15 @@
     </bc-auto-resize-textarea>
 
     @if ( isGenerating ) {
-        <bc-button
-            type="integrated"
-            icon="boschicon-bosch-ic-stop-frame"
-            (onClick)="stop()">
-        </bc-button>
+        <i
+            class="a-icon boschicon-bosch-ic-stop-frame custom-icon"
+            (click)="stop()">
+        </i>
     } @else {
-        <bc-button
-            type="integrated"
-            icon="boschicon-bosch-ic-arrow-up-frame"
-            [disabled]="control?.invalid"
-            (onClick)="start()">
-        </bc-button>
+        <i
+            class="a-icon boschicon-bosch-ic-arrow-up-frame custom-icon"
+            [class.disabled]="control?.invalid"
+            (click)="start()">
+        </i>
     }
 </div>

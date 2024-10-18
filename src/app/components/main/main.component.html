@@ -1,3 +1,5 @@
+<supergraphic></supergraphic>
+
 <div class="layout-row h-full">
     <div class="left-page">
         <sidebar
@@ -6,12 +8,27 @@
             (selectedChatIdEvent)="changeChatWindow($event)"
             (createChatEvent)="createNewChat()">
         </sidebar>
+        <div
+            class="account"
+            [dropdownTriggerFor]="accountDropdown"
+            position="top">
+            <bc-truncate>{{ user?.name }}</bc-truncate>
+        </div>
     </div>
-    <div class="right-page">
+    
+    <div class="right-page"> 
         <bc-chat
+            [messages]="messages"
             [activeChatId]="chatId"
             [modelList]="modelList"
             [modelSelected]="modelSelected">
         </bc-chat>
     </div>
 </div>
+
+<bc-dropdown #accountDropdown>
+    <div class="bc-menu" style="width: 200px;">
+        <div class="bc-menu__item">Settings</div>
+        <div class="bc-menu__item">Sign Out</div>
+    </div>
+</bc-dropdown>

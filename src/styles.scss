@@ -9,6 +9,9 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
@@ -40,6 +43,8 @@ $angular-common-theme: mat.define-light-theme((
 @import 'assets/boschcss/custom.scss';
 @import 'assets/boschcss/mixin.scss';
 @import 'assets/boschcss/variable.scss';
+@import 'highlight.js/styles/default.css';
+// @import './markdown.css';
 
 @include margin-classes;
 @include padding-classes;
@@ -47,6 +52,27 @@ $angular-common-theme: mat.define-light-theme((
 @include height-classes;
 @include width-percent-classes;
 @include height-percent-classes;
+
+iframe {
+	@apply rounded-lg;
+}
+
+.hljs {
+	@apply rounded-lg;
+}
+
+.markdown-prose {
+	@apply dark:prose-invert prose-p:my-0 prose-img:my-1 prose-headings:my-1 prose-pre:my-0 prose-table:my-0 prose-blockquote:my-0 prose-ul:-my-0 prose-ol:-my-0 prose-li:-my-0 whitespace-pre-line;
+	
+	h3 {
+		font-size: 1.25rem;
+	}
+
+}
+
+.markdown a {
+	@apply underline;
+}
 
 body {
 	font-family: 'boschsans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;

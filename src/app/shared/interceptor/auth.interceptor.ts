@@ -26,10 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
      * @return {Observable}
      */
     intercept( req: HttpRequest<any>, next: HttpHandler ): Observable<HttpEvent<any>> {
-        return next.handle(req);
         if ( req.url.includes( 'assets/' ) || req.url.includes( 'log-in' ) || req.url.includes( 'check-valid-token' ) ) return next.handle(req);
-
-        this._authService.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJhNTU5OWM5LWEzZTgtNGM4Ni1iMmFjLWYzZTk2MjRjNjBhNyJ9.uzBho4n6aDu83l120iJCm2K54KqlnidjPLKAD0CbGj8';
 
         if ( this._authService.token ) {
             const prefix: string = _.includes( this.URL_NOT_HAVE_VERSION, req.url ) ? 'api' : 'api/v1';

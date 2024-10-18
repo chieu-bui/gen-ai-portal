@@ -12,7 +12,7 @@ export interface IDropdownPanel {
     readonly closed: EventEmitter<void>;
 }
 
-type IPosition = 'below' | 'after';
+type IPosition = 'below' | 'after' | 'top';
 
 @Directive({ selector: '[dropdownTriggerFor]' })
 export class DropdownTriggerForDirective implements OnDestroy {
@@ -116,6 +116,16 @@ export class DropdownTriggerForDirective implements OnDestroy {
 				offsetY: this.offsetY || 12,
 			}
           break;
+		case 'top':
+			res = {
+				originX: 'center',
+				originY: 'top',
+				overlayX: 'center',
+            	overlayY: 'top',
+				offsetX: this.offsetX || -20,
+				offsetY: this.offsetY || -50,
+			}
+			break;
     	}
 
     	return res;

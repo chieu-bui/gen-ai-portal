@@ -5,6 +5,8 @@
     height: 100%;
 
     .left-page {
+        display: flex;
+        flex-direction: column;
         width: 400px;
         background-color: var(--bosch-gray-95);
 
@@ -20,13 +22,25 @@
                 background-color: var(--bosch-blue-70);
             }
         }
+
+        .account {
+            padding: 15px;
+            font-size: 14px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--bosch-blue-90);
+            }
+        }
     }
 
     .right-page {
         display: flex;
         flex-direction: column;
         width: 100%;
-        padding: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 20px;
     }
 
 }

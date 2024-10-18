@@ -7,6 +7,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 
+import { marked } from 'marked';
+import { markedHighlight } from 'marked-highlight';
+import highlightJs from 'highlight.js';
+
 import { routes } from './app.routes';
 import { interceptorProviders } from '@shared/interceptor';
 import { AuthService } from '@shared/services/auth.service';
@@ -21,8 +25,10 @@ function createTranslateLoader(http: HttpClient) {
  * @return {Promise} 
  */
 function initToken( authService: AuthService, backendConfigService: BackendConfigService ) {
-	return (): Promise<any> =>
-		firstValueFrom( authService.getToken() )
+	// marked.use(markedHighlight({ highlight: highlightCodeBlock }));
+
+  return (): Promise<any> =>
+		firstValueFrom( authService. getToken() )
 		.then( ( token: string ) => {
 
 			if ( !token ) return;
@@ -31,6 +37,7 @@ function initToken( authService: AuthService, backendConfigService: BackendConfi
 			.then( ( isValid: boolean ) => {        
         if ( isValid ) {
           authService.token = token;
+          authService.getUser().subscribe();
           backendConfigService.getBackendConfig().subscribe();
         } } )
 			.catch( ( err: any ) => console.log( 'Error on check valid Token', err ) );

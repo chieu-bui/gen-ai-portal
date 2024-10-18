@@ -18,6 +18,7 @@ export interface IChat {
     history?: IHistory;
     tags?: any[];
     timestamp?: string;
+    messages?: any[];
 }
 
 export interface IChatResponse {
@@ -31,9 +32,10 @@ export interface IChatResponse {
     archived: boolean;
 }
 
-export interface IChatMessage { // store previous message 
+export interface IChatMessage {
     role: string;
     content: string;
+    errorContent?: string;
 }
 
 
