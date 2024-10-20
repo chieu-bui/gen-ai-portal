@@ -43,20 +43,26 @@
         }
     }
 
-    .empty-chat {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
+    .empty-title,
+    .welcome-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
 
-        .title {
-            font-weight: bold;
-            font-size: 35px;
-            margin-bottom: 5px;
-            color: var(--bosch-gray-75);
-        }
+    .empty-title {
+        color: var(--bosch-gray-75);
+        font-size: 35px;
+    }
+
+    .welcome-title {
+        color: var(--bosch-blue-60);
+        font-size: 25px;
+    }
+
+    .hint {
+        color: var(--bosch-gray-75);
+        font-size: 25px;
+        font-weight: bold;
     }
 
 }

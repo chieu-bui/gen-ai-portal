@@ -4,34 +4,18 @@
     width: 100%;
     height: 100%;
 
-    .left-page {
+    .left-page-max {
         display: flex;
         flex-direction: column;
-        width: 400px;
+        width: 350px;
         background-color: var(--bosch-gray-95);
+    }
 
-        .header {
-            padding: 10px;
-            cursor: pointer;
-
-            &:hover {
-                background-color: var(--bosch-blue-90);
-            }
-
-            &.active {
-                background-color: var(--bosch-blue-70);
-            }
-        }
-
-        .account {
-            padding: 15px;
-            font-size: 14px;
-            cursor: pointer;
-
-            &:hover {
-                background-color: var(--bosch-blue-90);
-            }
-        }
+    .left-page-min {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        margin-left: 20px;
     }
 
     .right-page {

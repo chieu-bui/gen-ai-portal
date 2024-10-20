@@ -12,10 +12,7 @@ import { BCDropdownModule } from '@shared/components/bc-dropdown/bc-dropdown.mod
 import { SidebarComponent } from '@components/sidebar/sidebar.component';
 import { ChatService } from '@components/chat/services/chat.service';
 import { IChat, IChatItem, IChatMessage, IChatResponse } from '@components/chat/interfaces/chat.interface';
-import { BCButtonComponent } from "../../shared/components/bc-button/bc-button.component";
-import { IUser, UserService } from './services/user.service';
-import { BCAvatarComponent } from '@shared/components/bc-avatar/bc-avatar.component';
-import { TokenService } from './services/token.service';
+import { BCButtonComponent } from '@shared/components/bc-button/bc-button.component';
 
 @Unsubscriber()
 @Component({
@@ -25,8 +22,8 @@ import { TokenService } from './services/token.service';
     styleUrls: [ './main.component.scss' ],
     imports: [
         CommonModule, SidebarComponent, BCChatComponent,
-        SupergraphicComponent, BCButtonComponent, BCTruncateComponent,
-        BCDropdownModule, BCAvatarComponent,
+        SupergraphicComponent, BCTruncateComponent, BCDropdownModule,
+        BCButtonComponent,
     ],
 })
 export class MainComponent implements OnInit {
@@ -36,32 +33,22 @@ export class MainComponent implements OnInit {
     public modelList: IModelAI[];
     public modelSelected: string;
     public messages: IChatMessage[];
-    public user: IUser;
-
-    public src: string;
+    public isCloseSidebar: boolean;
 
     /**
      * @Constructor
      * @param {ModelAIService} _modelAIService
      * @param {ChatService} _chatService
-     * @param {UserService} _userService
-     * @param {TokenService} _tokenService
      */
     constructor(
         private _modelAIService: ModelAIService,
         private _chatService: ChatService,
-        private _userService: UserService,
-        private _tokenService: TokenService,
     ) {}
 
     /**
      * @constructor
      */
     ngOnInit(): void {
-        this._userService.user$
-        .pipe( untilCmpDestroyed( this ) )
-        .subscribe( ( user: IUser ) => this.user = user );
-
         forkJoin([
             this._chatService.getList(),
             this._modelAIService.getModelAIList(),
@@ -89,9 +76,6 @@ export class MainComponent implements OnInit {
             this.messages = _.map( chatResponse.chat.messages, ( message: any ) => {
                 return { role: message.role, content: message.content };
             } );
-            
-            
-            this.src = _.last( chatResponse.chat.messages )?.content;
         } );
     }
 
@@ -126,14 +110,6 @@ export class MainComponent implements OnInit {
         this._chatService.updateById( data.id, data.chat )
         .pipe( tap( () => this._getChatList() ), untilCmpDestroyed( this ) )
         .subscribe();
-    }
-
-    /**
-     * @return {void}
-     */
-    public signOut() {
-        localStorage.removeItem( 'genAIToken' );
-        this._tokenService.invalidToken$.next();
     }
 
     /**

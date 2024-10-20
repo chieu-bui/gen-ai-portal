@@ -5,16 +5,20 @@
     width: 100%;
     height: 100%;
 
-    .sidebar-container {
-        width: 100%;
-        height: 100%;
+    .title {
+        font-weight: bold;
+        font-size: 20px;
+        color: var(--bosch-eet);
+        text-wrap: nowrap;
+    }
 
-        .title {
-            font-weight: bold;
-            font-size: 20px;
-            color: var(--bosch-eet);
-            text-wrap: nowrap;
+    .account {
+        padding: 15px;
+        font-size: 14px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--bosch-blue-90);
         }
-
     }
 }

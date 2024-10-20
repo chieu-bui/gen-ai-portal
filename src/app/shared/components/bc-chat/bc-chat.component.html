@@ -10,12 +10,19 @@
     </bc-menu-single-field>
 
     <div class="container">
-        <bc-message
-            *ngFor="let message of messages; trackBy: trackByFunc;"
-            [content]="message?.content"
-            [errorContent]="message?.errorContent"
-            [isAIResponse]="message?.role === 'assistant'">
-        </bc-message>
+        @if ( messages?.length ) {
+            <bc-message
+                *ngFor="let message of messages; trackBy: trackByFunc;"
+                [content]="message?.content"
+                [errorContent]="message?.errorContent"
+                [isAIResponse]="message?.role === 'assistant'">
+            </bc-message>
+        } @else {
+            <div class="layout-row flex-direction-column align-items-center justify-content-center w-full h-full">
+                <div class="welcome-title">Welcome {{ user?.name }}</div>
+                <div class="hint">How can I help you?</div>
+            </div>
+        }
     </div>
 
     <div class="footer">
@@ -24,7 +31,6 @@
             [control]="control"
             (pressEnterEvent)="start()">
         </bc-auto-resize-textarea>
-
         @if (isGenerating) {
             <i
                 class="a-icon boschicon-bosch-ic-stop-frame custom-icon"
@@ -40,7 +46,7 @@
         }
     </div>
 } @else {
-    <div class="empty-chat">
-        <div class="title">Please select a chat's window</div>
+    <div class="layout-row flex-direction-column align-items-center justify-content-center w-full h-full">
+        <div class="empty-title">Please select a chat's window</div>
     </div>
 }
