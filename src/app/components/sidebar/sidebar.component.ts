@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { ChatListComponent } from "@components/chat/chat-list/chat-list.component";
-import { IChatItem } from "@components/chat/interfaces/chat.interface";
+import { IChat, IChatItem } from "@components/chat/interfaces/chat.interface";
 
 @Component({
     standalone: true,
@@ -19,6 +19,8 @@ export class SidebarComponent {
 
     @Output() public selectedChatIdEvent: EventEmitter<string> = new EventEmitter<string>();
     @Output() public createChatEvent: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public deleteEvent: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public updateEvent: EventEmitter<{ chat: IChat, id: string }> = new EventEmitter<{ chat: IChat, id: string }>();
 
     /**
 	 * @constructor

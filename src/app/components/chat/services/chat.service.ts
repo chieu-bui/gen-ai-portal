@@ -1,7 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import _ from 'lodash';
+
 import { IChatItem, IChat, IChatResponse, IPayloadChatComplete } from "../interfaces/chat.interface";
-import { Observable, Observer } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class ChatService {
@@ -38,11 +40,40 @@ export class ChatService {
     }
 
     /**
+     * @param {string} id
+     * @return {Observable}
+     */
+    public deleteById( id: string ): Observable<void> {
+        return this._httpClient.delete<void>(`${this._endPoint}/${id}`);
+    }
+
+    /**
+     * @param {string} id
+     * @param {IChat} chat
+     * @return {Observable}
+     */
+    public updateById( id: string, chat: IChat ): Observable<IChatResponse> {
+        return this._httpClient.post<IChatResponse>(`${this._endPoint}/${id}`, { chat } );
+    }
+
+    /**
      * @param {IPayloadChatComplete} payload
      * @return {Observable}
      */
-	public completions( payload: IPayloadChatComplete ) {
-		return this._httpClient.post<any>(`${this._endPoint}/completions`, payload );
+	public completions( payload: IPayloadChatComplete ): Promise<any> {
+		// return this._httpClient.post<any>(`${this._endPoint}/completions`, payload );
+        // olama
+        return fetch('http://localhost:8080/ollama/api/chat', {
+            signal: payload.signal,
+            method: 'POST',
+            body: JSON.stringify( _.omit( payload, 'signal' ) ),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2NjFhMmViLWExOWUtNDUxOC05MWRkLWE4MGU3NGNkNjlmYiJ9.Ghe3RsSPMJr8q-5cpHlivHcYc7iWMBu0wSiof8eZx2U`
+            },
+        } );
+        // azure
 	}
 
 }

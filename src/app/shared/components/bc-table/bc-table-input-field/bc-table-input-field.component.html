@@ -1,26 +1,28 @@
 <bc-dropdown #dropdown disableClose>
-    <div class="p-10 pb-0">
-        <textarea
-            #textarea
-            rows="5"
-            cols="25"
-            placeholder="Add Value"
-            class="bc-table-input-field__textarea"
-            [class.error]="isError"
-            [formControl]="control">
-        </textarea>
-
-        <div *ngIf="isError">
-            <span class="bc-table-input-field__textarea__error">
-                {{ control?.errors | formControlErrorMsg }}
-            </span>
+    <ng-template #contentTemplate>
+        <div class="p-10 pb-0">
+            <textarea
+                #textarea
+                rows="5"
+                cols="25"
+                placeholder="Add Value"
+                class="bc-table-input-field__textarea"
+                [class.error]="isError"
+                [formControl]="control">
+            </textarea>
+    
+            <div *ngIf="isError">
+                <span class="bc-table-input-field__textarea__error">
+                    {{ control?.errors | formControlErrorMsg }}
+                </span>
+            </div>
+    
+            <div class="layout-row align-items-center justify-content-flex-end mt-5">
+                <bc-button content="Save" (onClick)="onSave()" [disabled]="isError"></bc-button>
+                <bc-button content="Cancel" type="secondary" class="ml-5" (onClick)="onCancel()"></bc-button>
+            </div>
         </div>
-
-        <div class="layout-row align-items-center justify-content-flex-end mt-5">
-            <bc-button content="Save" (onClick)="onSave()" [disabled]="isError"></bc-button>
-            <bc-button content="Cancel" type="secondary" class="ml-5" (onClick)="onCancel()"></bc-button>
-        </div>
-    </div>
+    </ng-template>
 </bc-dropdown>
 
 <div

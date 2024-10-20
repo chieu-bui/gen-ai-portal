@@ -1,7 +1,7 @@
 import {
     Component, Output, TemplateRef,
     ViewChild, EventEmitter, Input,
-    booleanAttribute,
+    booleanAttribute, ContentChild,
 } from "@angular/core";
 
 import { IDropdownPanel } from "./bc-dropdown-trigger.directive";
@@ -15,13 +15,14 @@ import { IDropdownPanel } from "./bc-dropdown-trigger.directive";
 export class BCDropdownComponent implements IDropdownPanel {
     
     @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+    @ContentChild('contentTemplate') contentTemplate: TemplateRef<any>;
 
-    @Input() width: string;
-    @Input() minWidth: string;
-    @Input() maxWidth: string;
-    @Input() maxHeight: string;
-    @Input({ transform: booleanAttribute }) disableClose: boolean;
+    @Input() public width: string;
+    @Input() public minWidth: string;
+    @Input() public maxWidth: string;
+    @Input() public maxHeight: string;
+    @Input({ transform: booleanAttribute }) public disableClose: boolean;
 
-    @Output() closed = new EventEmitter<void>();
+    @Output() public closed = new EventEmitter<void>();
 
 }

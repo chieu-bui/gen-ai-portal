@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from 'rxjs/operators';
-import { EMPTY, Observable, Observer } from "rxjs";
+import { BehaviorSubject, EMPTY, Observable, Observer } from "rxjs";
 
 export interface IBackendConfig {
     status?: boolean;
@@ -22,8 +22,10 @@ export class BackendConfigService {
     private _endPoint: string = 'config';
 
     private _backendConfig: IBackendConfig;
-    get backendConfig(): IBackendConfig { return this._backendConfig; }
-    set backendConfig( config: IBackendConfig ) { this._backendConfig = config; }
+    get backendConfig() { return this._backendConfig; }
+    set backendConfig( newBackendConfig: IBackendConfig ) { this._backendConfig = newBackendConfig; }
+
+    public backendConfig$: BehaviorSubject<IBackendConfig> = new BehaviorSubject<IBackendConfig>( undefined );
 
     /**
      * @constructor
@@ -35,11 +37,7 @@ export class BackendConfigService {
      * @return {Observable}
      */
     public getBackendConfig(): Observable<any> {
-        return this._httpClient.get(`${this._endPoint}`)
-        .pipe( map( ( config: IBackendConfig ) => {
-            this.backendConfig = config;
-            return EMPTY;
-        } ) );
+        return this._httpClient.get(`${this._endPoint}`);
     }
 
 }

@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin } from 'rxjs';
+import { forkJoin, tap } from 'rxjs';
 import _ from 'lodash';
 
 import { Unsubscriber, untilCmpDestroyed } from '@shared/decorator';
 import { BCChatComponent } from '@shared/components';
-import { IModelAI, IModelAIData, ModelAIService } from '@shared/services/ai-models.service';
+import { IModelAI, IModelAIData, ModelAIService } from '@components/main/services/ai-models.service';
 import { SupergraphicComponent } from '@shared/components/supergraphic/supergraphic.component';
-import { AuthService, IUser } from '@shared/services/auth.service';
 import { BCTruncateComponent } from '@shared/components/bc-truncate/bc-truncate.component';
 import { BCDropdownModule } from '@shared/components/bc-dropdown/bc-dropdown.module';
 import { SidebarComponent } from '@components/sidebar/sidebar.component';
 import { ChatService } from '@components/chat/services/chat.service';
 import { IChat, IChatItem, IChatMessage, IChatResponse } from '@components/chat/interfaces/chat.interface';
 import { BCButtonComponent } from "../../shared/components/bc-button/bc-button.component";
+import { IUser, UserService } from './services/user.service';
+import { BCAvatarComponent } from '@shared/components/bc-avatar/bc-avatar.component';
+import { TokenService } from './services/token.service';
 
 @Unsubscriber()
 @Component({
@@ -24,7 +26,7 @@ import { BCButtonComponent } from "../../shared/components/bc-button/bc-button.c
     imports: [
         CommonModule, SidebarComponent, BCChatComponent,
         SupergraphicComponent, BCButtonComponent, BCTruncateComponent,
-        BCDropdownModule,
+        BCDropdownModule, BCAvatarComponent,
     ],
 })
 export class MainComponent implements OnInit {
@@ -42,19 +44,23 @@ export class MainComponent implements OnInit {
      * @Constructor
      * @param {ModelAIService} _modelAIService
      * @param {ChatService} _chatService
-     * @param {AuthService} _authService
+     * @param {UserService} _userService
+     * @param {TokenService} _tokenService
      */
     constructor(
         private _modelAIService: ModelAIService,
         private _chatService: ChatService,
-        private _authService: AuthService
+        private _userService: UserService,
+        private _tokenService: TokenService,
     ) {}
 
     /**
      * @constructor
      */
     ngOnInit(): void {
-        this.user = this._authService.user;
+        this._userService.user$
+        .pipe( untilCmpDestroyed( this ) )
+        .subscribe( ( user: IUser ) => this.user = user );
 
         forkJoin([
             this._chatService.getList(),
@@ -93,11 +99,65 @@ export class MainComponent implements OnInit {
      * @return {void}
      */
     public createNewChat() {
-        const newChat: IChat = { id: "", title: "New Chat", models: [ "azure_openai" ] };
-
-        this._chatService.create( newChat )
-        .pipe( untilCmpDestroyed( this ) )
+        this._chatService.create({
+            id: "",
+            title: "New Chat",
+            models: [ _.first( this.modelList )?.id ] 
+        })
+        .pipe( tap( ( data: any ) => this._getChatList( data.id ) ), untilCmpDestroyed( this ) )
         .subscribe();
+    }
+
+    /**
+     * @return {void}
+     * @param {string} id
+     */
+    public deleteChat( id: string ) {
+        this._chatService.deleteById( id )
+        .pipe( tap( () => this._getChatList() ), untilCmpDestroyed( this ) )
+        .subscribe();
+    }
+
+    /**
+     * @return {void}
+     * @param {IChat} chat
+     */
+    public updateChat( data: { chat: IChat, id: string } ) {
+        this._chatService.updateById( data.id, data.chat )
+        .pipe( tap( () => this._getChatList() ), untilCmpDestroyed( this ) )
+        .subscribe();
+    }
+
+    /**
+     * @return {void}
+     */
+    public signOut() {
+        localStorage.removeItem( 'genAIToken' );
+        this._tokenService.invalidToken$.next();
+    }
+
+    /**
+     * @return {void}
+     * @param {string} selectedChatId
+     */
+    private _getChatList( selectedChatId?: string ) {
+        this._chatService.getList()
+        .pipe( untilCmpDestroyed( this ) )
+        .subscribe( ( chatList: IChatItem[] ) => {
+            this.chatList = chatList;
+
+            if ( selectedChatId ) {
+                this.changeChatWindow( selectedChatId );
+                return;
+            }
+
+            if ( this.chatList?.length ) {
+                this.changeChatWindow( _.first( this.chatList )?.id );
+                return;
+            }
+
+            this.chatId = undefined;
+        } );
     }
 
 }

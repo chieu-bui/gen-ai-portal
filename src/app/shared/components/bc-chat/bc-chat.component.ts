@@ -6,11 +6,12 @@ import {
 import { CommonModule } from "@angular/common";
 import { FormControl, Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import _ from 'lodash';
 
-import { IModelAI } from "@shared/services/ai-models.service";
+import { IModelAI } from "@components/main/services/ai-models.service";
 import { IChatMessage, IPayloadChatComplete } from "@components/chat/interfaces/chat.interface";
+import { ChatService } from "@components/chat/services/chat.service";
 import { BCMessageComponent } from "./bc-message/bc-message.component";
 import { BCAutoResizeTextarea } from "../bc-auto-resize-textarea/bc-auto-resize-textarea.component";
 import { BCButtonComponent } from "../bc-button/bc-button.component";
@@ -46,6 +47,12 @@ export class BCChatComponent implements OnChanges {
 
     /**
      * @constructor
+     * @param {ChatService} _chatService
+     */
+    constructor( private _chatService: ChatService ) {}
+
+    /**
+     * @constructor
      * @param {SimpleChanges} changes
      */
     ngOnChanges( changes: SimpleChanges ): void {
@@ -58,9 +65,6 @@ export class BCChatComponent implements OnChanges {
         if ( changes.modelSelected && changes.modelSelected.currentValue ) {
             this.modelSelectedControl = new FormControl( this.modelSelected );
         }
-
-        console.log( 'a', this.messages );
-        
     }
 
     /**
@@ -83,54 +87,56 @@ export class BCChatComponent implements OnChanges {
             { role: 'user', content: this.control.getRawValue() }
         ];
 
+        const controller = new AbortController();
         const payload: IPayloadChatComplete = {
             id: uuidv4(),
             chat_id: this.activeChatId,
             stream: true,
             model: this.modelSelectedControl.getRawValue(),
             messages: this.messages,
+            signal: controller.signal,
         };
 
         this.control.patchValue('');
         this.messages.push({ role: 'assistant', content: '' });
 
-        // this._chatService.completions( payload ); 
-
-        const controller = new AbortController();
-
-        fetch('http://localhost:3000/stream', {
-            signal: controller.signal,
-			method: 'POST',
-		})
-		.then( (res) => {
-			const reader = res.body.getReader();
+        this._chatService.completions( payload ).then( ( res ) => {
+            const reader = res.body.getReader();
             const subject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+            const doneSubject$: Subject<void> = new Subject<void>();
+
+            doneSubject$.subscribe( () => {
+                this.isGenerating = false;
+                doneSubject$.unsubscribe();
+                
+            } );
 
             subject$.subscribe( ( text: string ) => {
                 _.last( this.messages ).content += text;
-
+                
                 if ( !this.stopResponseFlag ) return;
 
                 controller.abort();
                 subject$.unsubscribe();
             } );
-    
-			reader.read().then( function pump({ done, value }) {
-				const decodeStr: string = new TextDecoder().decode( value );
-				const parseData: any = JSON.parse( decodeStr );
-                subject$.next( parseData.choices?.[0]?.delta?.content || '' );
-                
-                if ( !done ) return reader.read().then( pump );
 
-                console.log( 'done');
-                this.isGenerating = false;
+            reader.read().then( function pump({ done, value }) {
+                const decodeStr: string = new TextDecoder().decode( value );
+
+                if ( !done ) {
+                    const message: IChatMessage =  JSON.parse( decodeStr )?.message;
+                    subject$.next( message?.content );
+                    
+                    return reader.read().then( pump );
+                }
+
+                doneSubject$.next();
                 subject$.unsubscribe();
-
 			} )
             .catch( ( e: any ) => {
                 console.log( e );
             })
-		})
+        } );
     }
 
     /**

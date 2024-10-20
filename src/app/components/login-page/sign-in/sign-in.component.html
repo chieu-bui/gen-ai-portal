@@ -1,0 +1,29 @@
+<div class="form-container" [formGroup]="formGroup">
+    <img src="assets/img/svg/bosch-logo.svg" class="margin-auto mb-5"/>
+    <div class="header">Login - Gen AI Portal</div>
+    <bc-text-field
+        placeHolder="Your Email"
+        [control]="emailControl">
+    </bc-text-field>
+    <bc-password-field
+        placeHolder="Your Password"
+        [control]="passwordControl">
+    </bc-password-field>
+    <bc-button
+        content="Sign In"
+        width="100%"
+        [disabled]="disabledSignInBtn"
+        (onClick)="signIn()">
+    </bc-button>
+    <div class="layout-row align-items-center mb-20 mt-20">
+        <bc-divider></bc-divider>
+        <span class="pl-10 pr-10 font-weight-bold">OR</span>
+        <bc-divider></bc-divider>
+    </div>
+    <bc-button
+        type="secondary"
+        content="Sign Up"
+        width="100%"
+        (onClick)="signUpEvent?.emit()">
+    </bc-button>
+</div>

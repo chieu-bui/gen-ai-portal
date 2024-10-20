@@ -6,13 +6,18 @@
             [chatList]="chatList"
             [activeChatId]="chatId"
             (selectedChatIdEvent)="changeChatWindow($event)"
-            (createChatEvent)="createNewChat()">
+            (createChatEvent)="createNewChat()"
+            (deleteEvent)="deleteChat($event)"
+            (updateEvent)="updateChat($event)">
         </sidebar>
         <div
             class="account"
             [dropdownTriggerFor]="accountDropdown"
-            position="top">
-            <bc-truncate>{{ user?.name }}</bc-truncate>
+            position="top" >
+            <div class="layout-row align-items-center">
+                <bc-avatar [imgLink]="user?.profile_image_url" class="mr-10"></bc-avatar>
+                <bc-truncate class="font-weight-bold">{{ user?.name }}</bc-truncate>
+            </div>
         </div>
     </div>
     
@@ -27,8 +32,10 @@
 </div>
 
 <bc-dropdown #accountDropdown>
-    <div class="bc-menu" style="width: 200px;">
-        <div class="bc-menu__item">Settings</div>
-        <div class="bc-menu__item">Sign Out</div>
-    </div>
+    <ng-template #contentTemplate>
+        <div class="bc-menu">
+            <!-- <div class="bc-menu__item">Settings</div> -->
+            <div class="bc-menu__item" (click)="signOut()">Sign Out</div>
+        </div>
+    </ng-template>
 </bc-dropdown>

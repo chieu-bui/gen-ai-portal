@@ -20,9 +20,30 @@
             *ngFor="let chatItem of dspChatlist; trackBy: trackByFunc;"
             [class.active]="activeChatId === chatItem?.id"
             (click)="setActiveChat(chatItem?.id)">
-            <bc-truncate position="top">{{ chatItem?.title }}</bc-truncate>
+            <div class="layout-row align-items-center flex">
+                @if ( chatItem?.isEdit ) {
+                    <bc-text-field
+                        canEdit
+                        notShowError
+                        height="50px"
+                        [control]="editNameControl"
+                        (saveEvent)="saveRename()"
+                        (cancelEvent)="cancelRename()"
+                        (click)="$event?.stopPropagation();">
+                    </bc-text-field>
+                } @else {
+                    <bc-truncate position="top">{{ chatItem?.title }}</bc-truncate>
+                    <div
+                        position="right"
+                        [dropdownTriggerFor]="moreAction"
+                        [contextData]="{ id: chatItem?.id }"
+                        (click)="$event?.stopPropagation();">
+                        ...
+                    </div>
+                }
+            </div>
         </div>
-    </div>   
+    </div>
 } @else {
     <div class="chat-list-empty">
         <div class="layout-row flex-direction-column align-items-center">
@@ -34,3 +55,12 @@
         </div>
     </div>
 }
+
+<bc-dropdown #moreAction>
+    <ng-template #contentTemplate let-contextData="contextData">
+        <div class="bc-menu">
+            <div class="bc-menu__item" (click)="rename( contextData?.id )">Rename</div>
+            <div class="bc-menu__item" (click)="delete( contextData?.id )">Delete</div>
+        </div>
+    </ng-template>
+</bc-dropdown>

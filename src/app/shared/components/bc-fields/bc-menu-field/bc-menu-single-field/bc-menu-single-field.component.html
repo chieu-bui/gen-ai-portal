@@ -33,23 +33,25 @@
 </bc-form-field>
 
 <bc-dropdown #menu>
-    <bc-search-box
-        (onSearchChange)="onSearch($event)"
-        (click)="preventDefault($event)">
-    </bc-search-box>
-    <div class="bc-menu" *ngIf="isMenuOpen">
-        <ng-template #notFound>
-            <div class="bc-menu__not-found">Nothing here matches your search</div>
-        </ng-template>
-        <ng-container *ngIf="dspOptions?.length; else notFound">
-            <div
-                class="bc-menu__item"
-                *ngFor="let option of dspOptions; trackBy: trackByFunc"
-                [class.active]="option?.value && option?.value === dspValue"
-                [class.disabled]="option?.disabled"
-                (click)="option?.disabled ? preventDefault($event) : onChange(option)">
-                <bc-truncate position="top">{{ option?.label }}</bc-truncate>
-            </div>
-        </ng-container>
-    </div>
+    <ng-template #contentTemplate>
+        <bc-search-box
+            (onSearchChange)="onSearch($event)"
+            (click)="preventDefault($event)">
+        </bc-search-box>
+        <div class="bc-menu" *ngIf="isMenuOpen">
+            <ng-template #notFound>
+                <div class="bc-menu__not-found">Nothing here matches your search</div>
+            </ng-template>
+            <ng-container *ngIf="dspOptions?.length; else notFound">
+                <div
+                    class="bc-menu__item"
+                    *ngFor="let option of dspOptions; trackBy: trackByFunc"
+                    [class.active]="option?.value && option?.value === dspValue"
+                    [class.disabled]="option?.disabled"
+                    (click)="option?.disabled ? preventDefault($event) : onChange(option)">
+                    <bc-truncate position="top">{{ option?.label }}</bc-truncate>
+                </div>
+            </ng-container>
+        </div>
+    </ng-template>
 </bc-dropdown>

@@ -1,0 +1,7 @@
+<div class="login-page">
+    @if(isSignUp) {
+        <sign-up (backEvent)="isSignUp = false"></sign-up>
+    } @else {
+        <sign-in (signInSuccessEvent)="nextPage()" (signUpEvent)="isSignUp = true"></sign-in>
+    }
+</div>

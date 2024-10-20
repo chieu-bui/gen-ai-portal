@@ -1,0 +1,17 @@
+:host {
+    display: flex;
+    flex-direction: column;
+
+    .form-container {
+        width: 600px;
+        background-color: var(--bosch-white);
+        padding: 30px;
+
+        .header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 25px;
+            margin-bottom: 15px;;
+        }
+    }
+}

@@ -12,17 +12,18 @@ export interface IDropdownPanel {
     readonly closed: EventEmitter<void>;
 }
 
-type IPosition = 'below' | 'after' | 'top';
+type IPosition = 'bottom' | 'right' | 'top';
 
 @Directive({ selector: '[dropdownTriggerFor]' })
 export class DropdownTriggerForDirective implements OnDestroy {
 
     @Input('dropdownTriggerFor') public dropdownPanel: IDropdownPanel;
-    @Input() public position: IPosition = 'below';
+    @Input() public position: IPosition = 'bottom';
     @Input() public isSyncWidth: boolean;
     @Input() public isTooltip: boolean;
     @Input() public offsetX: number;
     @Input() public offsetY: number;
+    @Input() public contextData: Object;
   
     @Output() public menuOpen: EventEmitter<void> = new EventEmitter<void>;
     @Output() public menuClose: EventEmitter<void> = new EventEmitter<void>;
@@ -80,7 +81,11 @@ export class DropdownTriggerForDirective implements OnDestroy {
 
 		this.syncWidth();
 
-		const templatePortal = new TemplatePortal( this.dropdownPanel.templateRef, this.viewContainerRef );
+		const templatePortal = new TemplatePortal(
+      this.dropdownPanel.templateRef,
+      this.viewContainerRef,
+      { contextData: this.contextData },
+    );
   
 		this.overlayRef.attach(templatePortal);
 		this.menuOpen.emit();
@@ -96,7 +101,7 @@ export class DropdownTriggerForDirective implements OnDestroy {
       let res: ConnectedPosition;
 
       switch ( this.position ) {
-        case 'below':
+        case 'bottom':
         	res = {
             	originX: 'center',
             	originY: 'bottom',
@@ -106,7 +111,7 @@ export class DropdownTriggerForDirective implements OnDestroy {
             	offsetY: this.offsetY || 8,
         	};
 			break;
-        case 'after':
+        case 'right':
           	res = {
 				originX: 'end',
 				originY: 'top',
@@ -115,14 +120,14 @@ export class DropdownTriggerForDirective implements OnDestroy {
 				offsetX: this.offsetX || 10,
 				offsetY: this.offsetY || 12,
 			}
-          break;
+        	break;
 		case 'top':
 			res = {
 				originX: 'center',
 				originY: 'top',
-				overlayX: 'center',
-            	overlayY: 'top',
-				offsetX: this.offsetX || -20,
+				overlayX: 'end',
+				overlayY: 'top',
+				offsetX: this.offsetX || 40,
 				offsetY: this.offsetY || -50,
 			}
 			break;

@@ -12,8 +12,8 @@ export interface IHistory {
 
 export interface IChat {
     id?: string;
-    title: string;
-    models: string[]; // [ "azure_openai" ]
+    title?: string;
+    models?: string[]; // [ "azure_openai" ]
     params?: IObject<string>;
     history?: IHistory;
     tags?: any[];
@@ -32,8 +32,10 @@ export interface IChatResponse {
     archived: boolean;
 }
 
+export type IRole = 'user' | 'assistant';
+
 export interface IChatMessage {
-    role: string;
+    role: IRole;
     content: string;
     errorContent?: string;
 }
@@ -47,4 +49,5 @@ export interface IPayloadChatComplete {
     session_id?: string;
     chat_id: string;
     id: string;
+    signal: AbortSignal;
 }

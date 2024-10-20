@@ -7,6 +7,8 @@
         [chatList]="chatList"
         [activeChatId]="activeChatId"
         (selectedChatIdEvent)="selectedChatIdEvent?.emit($event)"
-        (createChatEvent)="createChatEvent?.emit()">
+        (createChatEvent)="createChatEvent?.emit()"
+        (deleteEvent)="deleteEvent?.emit($event)"
+        (updateEvent)="updateEvent?.emit($event)">
     </chat-list>
 </div>

@@ -1,0 +1,22 @@
+<div class="form-container" [formGroup]="formGroup">
+    <img src="assets/img/svg/bosch-logo.svg" class="margin-auto mb-5"/>
+    <div class="header">SignUp - Gen AI Portal</div>
+    <bc-text-field
+        placeHolder="Your name"
+        [control]="nameControl">
+    </bc-text-field>
+    <bc-text-field
+        placeHolder="Your Email"
+        [control]="emailControl">
+    </bc-text-field>
+    <bc-password-field
+        placeHolder="Your Password"
+        [control]="passwordControl">
+    </bc-password-field>
+    <bc-button
+        content="Sign Up"
+        width="100%"
+        [disabled]="disabledSignUpBtn"
+        (onClick)="signUp()">
+    </bc-button>
+</div>

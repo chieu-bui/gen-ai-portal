@@ -8,15 +8,22 @@
         display: flex;
         flex-direction: column;
         overflow: auto;
+        min-width: 0;
+        max-width: 100%;
         width: 100%;
+        min-height: 0;
         height: 100%;
+        max-height: 100%;
+        margin-bottom: 10px;
     }
 
     .footer {
         display: flex;
         align-items: center;
-        padding: 5px;
+        padding: 10px;
         background-color: var(--bosch-gray-95);
+        width: 90%;
+        margin: 0 auto;
 
         .custom-icon {
             font-size: 35px;
@@ -33,6 +40,22 @@
                     color: var(--bosch-blue);
                 }
             }
+        }
+    }
+
+    .empty-chat {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+
+        .title {
+            font-weight: bold;
+            font-size: 35px;
+            margin-bottom: 5px;
+            color: var(--bosch-gray-75);
         }
     }
 

@@ -32,28 +32,30 @@
 </bc-form-field>
 
 <bc-dropdown #menu [disableClose]="true">
-    <bc-search-box
-        (onSearchChange)="onSearch($event)"
-        (click)="$event?.stopPropagation(); $event?.preventDefault()">
-    </bc-search-box>
-    <div class="bc-menu" *ngIf="isMenuOpen">
-        <ng-template #notFound>
-            <div class="bc-menu__not-found">Nothing here matches your search</div>
-        </ng-template>
-        <ng-container *ngIf="dspOptions?.length; else notFound">
-            <div
-                class="bc-menu__item"
-                *ngFor="let option of dspOptions; trackBy: trackByFunc"
-                (click)="onChange( option )">
-                <div class="layout-row align-items-center w-full">
-                    <bc-checkbox
-                        class="mr-5"
-                        [(checked)]="option.checked"
-                        (click)="$event?.stopPropagation(); $event?.preventDefault()">
-                    </bc-checkbox>
-                    <bc-truncate position="top">{{ option?.label }}</bc-truncate>
+    <ng-template #contentTemplate>
+        <bc-search-box
+            (onSearchChange)="onSearch($event)"
+            (click)="$event?.stopPropagation(); $event?.preventDefault()">
+        </bc-search-box>
+        <div class="bc-menu" *ngIf="isMenuOpen">
+            <ng-template #notFound>
+                <div class="bc-menu__not-found">Nothing here matches your search</div>
+            </ng-template>
+            <ng-container *ngIf="dspOptions?.length; else notFound">
+                <div
+                    class="bc-menu__item"
+                    *ngFor="let option of dspOptions; trackBy: trackByFunc"
+                    (click)="onChange( option )">
+                    <div class="layout-row align-items-center w-full">
+                        <bc-checkbox
+                            class="mr-5"
+                            [(checked)]="option.checked"
+                            (click)="$event?.stopPropagation(); $event?.preventDefault()">
+                        </bc-checkbox>
+                        <bc-truncate position="top">{{ option?.label }}</bc-truncate>
+                    </div>
                 </div>
-            </div>
-        </ng-container>
-    </div>
+            </ng-container>
+        </div>
+    </ng-template>
 </bc-dropdown>

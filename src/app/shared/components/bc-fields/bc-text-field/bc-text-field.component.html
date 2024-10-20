@@ -1,18 +1,33 @@
 <bc-form-field>
     <div bcFormFieldLabel *ngIf="label">{{ label }}</div>
-    <input
-        bcFormFieldInput
-        type="text"
-        #eleRef
-        [tooltip]="control?.value"
-        [hidden]="!isTruncate"
-        [placeholder]="placeHolder"
-        [formControl]="control"
-        [disableControl]="disabled"
-        [style.width]="width"
-        [style.height]="height"
-        (change)="checkTooltip()"
-    />
+        <input
+            bcFormFieldInput
+            type="text"
+            #eleRef
+            [ngStyle]="canEdit ? {'padding-right': '85px'} : {'padding-right': '0'}"
+            [tooltip]="control?.value"
+            [hidden]="!isTruncate"
+            [placeholder]="placeHolder"
+            [formControl]="control"
+            [disableControl]="disabled"
+            [style.width]="width"
+            [style.height]="height"
+            (change)="checkTooltip()"
+        />
+        @if ( canEdit ) {
+            <bc-button
+                bcFormFieldIcon2
+                type="integrated"
+                icon="ui-ic-checkmark"
+                (click)="$event?.stopPropagation(); save();">
+            </bc-button>
+            <bc-button
+                bcFormFieldIcon
+                type="integrated"
+                icon="ui-ic-close"
+                (click)="$event?.stopPropagation(); cancel();">
+            </bc-button>
+        }
     <div bcFormFieldError [class.hidden]="!isError" *ngIf="!notShowError">
         {{ control?.errors | formControlErrorMsg }}
     </div>
