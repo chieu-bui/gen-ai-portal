@@ -7,6 +7,7 @@ import { CommonModule } from "@angular/common";
 import { FormControl, Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
 import { BehaviorSubject, Subject } from "rxjs";
+import { EventSourceParserStream } from 'eventsource-parser/stream';
 import _ from 'lodash';
 
 import { untilCmpDestroyed } from "@shared/decorator";
@@ -97,7 +98,7 @@ export class BCChatComponent implements OnChanges, OnInit {
 
         this.messages = [
             ...this.messages || [],
-            { role: 'user', content: this.control.getRawValue() }
+            { role: 'user', content: this.control.getRawValue(), id: uuidv4() }
         ];
 
         const controller = new AbortController();
@@ -111,17 +112,24 @@ export class BCChatComponent implements OnChanges, OnInit {
         };
 
         this.control.patchValue('');
-        this.messages.push({ role: 'assistant', content: '' });
+        this.messages.push({ role: 'assistant', content: '', id: uuidv4() });
 
         this._chatService.completions( payload ).then( ( res ) => {
-            const reader = res.body.getReader();
+            const eventStream = ( res.body as ReadableStream<Uint8Array>)
+                .pipeThrough(new TextDecoderStream())
+                .pipeThrough(new EventSourceParserStream())
+                .getReader();
+
             const subject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
             const doneSubject$: Subject<void> = new Subject<void>();
 
             doneSubject$.subscribe( () => {
                 this.isGenerating = false;
                 doneSubject$.unsubscribe();
-                
+
+                this._chatService.updateById( this.activeChatId, { messages: this.messages } )
+                .pipe( untilCmpDestroyed( this ) )
+                .subscribe();
             } );
 
             subject$.subscribe( ( text: string ) => {
@@ -133,22 +141,22 @@ export class BCChatComponent implements OnChanges, OnInit {
                 subject$.unsubscribe();
             } );
 
-            reader.read().then( function pump({ done, value }) {
-                const decodeStr: string = new TextDecoder().decode( value );
-
-                if ( !done ) {
-                    const message: IChatMessage =  JSON.parse( decodeStr )?.message;
-                    subject$.next( message?.content );
+            eventStream.read().then( function pump( streamData: { done: boolean, value: any }) {
+                
+                if ( !streamData?.done && !streamData?.value?.data.includes( 'DONE' ) ) {
                     
-                    return reader.read().then( pump );
+                    const decodeStr: string = streamData?.value?.data;
+                    const parseData: any = JSON.parse( decodeStr );
+                    const message: string =  parseData.choices?.[0]?.delta?.content || '';
+                    subject$.next( message );
+                    
+                    return eventStream.read().then( pump );
                 }
 
                 doneSubject$.next();
                 subject$.unsubscribe();
-			} )
-            .catch( ( e: any ) => {
-                console.log( e );
-            })
+            } )
+            .catch( ( e: any ) => console.log( e ) );
         } );
     }
 

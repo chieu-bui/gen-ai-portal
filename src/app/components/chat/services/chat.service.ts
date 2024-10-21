@@ -61,19 +61,19 @@ export class ChatService {
      * @return {Observable}
      */
 	public completions( payload: IPayloadChatComplete ): Promise<any> {
-		// return this._httpClient.post<any>(`${this._endPoint}/completions`, payload );
-        // olama
-        return fetch('http://localhost:8080/ollama/api/chat', {
+        const token: string = localStorage.getItem( 'genAIToken' );
+
+        return fetch('http://10.184.95.101:3000/api/chat/completions', {
             signal: payload.signal,
             method: 'POST',
             body: JSON.stringify( _.omit( payload, 'signal' ) ),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2NjFhMmViLWExOWUtNDUxOC05MWRkLWE4MGU3NGNkNjlmYiJ9.Ghe3RsSPMJr8q-5cpHlivHcYc7iWMBu0wSiof8eZx2U`
+                'Authorization': `Bearer ${token}`
             },
         } );
-        // azure
+        // 
 	}
 
 }

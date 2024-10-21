@@ -26,6 +26,7 @@
     "@ngx-translate/http-loader": "^8.0.0",
     "@tailwindcss/typography": "^0.5.15",
     "event-stream": "^4.0.1",
+    "eventsource-parser": "^3.0.0",
     "exceljs": "^4.4.0",
     "highlight.js": "^11.10.0",
     "lodash": "^4.17.21",

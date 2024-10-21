@@ -38,8 +38,8 @@ export interface IChatMessage {
     role: IRole;
     content: string;
     errorContent?: string;
+    id?: string;
 }
-
 
 export interface IPayloadChatComplete {
     stream: boolean;
