@@ -63,11 +63,23 @@ iframe {
 
 .markdown-prose {
 	@apply dark:prose-invert prose-p:my-0 prose-img:my-1 prose-headings:my-1 prose-pre:my-0 prose-table:my-0 prose-blockquote:my-0 prose-ul:-my-0 prose-ol:-my-0 prose-li:-my-0 whitespace-pre-line;
-	
-	h3 {
-		font-size: 1.25rem;
-	}
 
+	code {
+		color: var(--bosch-red);
+		border-width: 0px;
+		padding: 5px;
+		font-size: 0.8em;
+		font-weight: 600;
+		background-color: var(--bosch-white);
+		
+		&.language-html {
+			background-color: var(--bosch-gray-95);
+		}
+
+		.hljs-name {
+			color: var(--bosch-green);
+		}
+	}
 }
 
 .markdown a {
