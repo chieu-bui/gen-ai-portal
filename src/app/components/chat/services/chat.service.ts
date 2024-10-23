@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import _ from 'lodash';
 
+import { environment } from '@environments/environment';
 import { IChatItem, IChat, IChatResponse, IPayloadChatComplete } from "../interfaces/chat.interface";
 
 @Injectable({ providedIn: 'root' })
@@ -63,7 +64,7 @@ export class ChatService {
 	public completions( payload: IPayloadChatComplete ): Promise<any> {
         const token: string = localStorage.getItem( 'genAIToken' );
 
-        return fetch('http://10.184.95.101:3000/api/chat/completions', {
+        return fetch(`${environment?.apiUrl}/api/chat/completions`, {
             signal: payload.signal,
             method: 'POST',
             body: JSON.stringify( _.omit( payload, 'signal' ) ),
@@ -73,7 +74,6 @@ export class ChatService {
                 'Authorization': `Bearer ${token}`
             },
         } );
-        // 
 	}
 
 }
