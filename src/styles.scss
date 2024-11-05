@@ -68,7 +68,7 @@ iframe {
 		color: var(--bosch-red);
 		border-width: 0px;
 		padding: 5px;
-		font-size: 0.8em;
+		font-size: 0.8em; 
 		font-weight: 600;
 		background-color: var(--bosch-white);
 		
@@ -80,20 +80,21 @@ iframe {
 			color: var(--bosch-green);
 		}
 	}
+
+	ul {
+		padding-left: 1.5rem;
+		line-height: 0.5;
+	}
+
+	li {
+		::before {
+			top: 0.6rem;
+		}
+	}
 }
 
 .markdown a {
 	@apply underline;
-}
-
-body {
-	font-family: 'boschsans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-	min-width: 0;
-	width: 100vw;
-	max-width: 100vw;
-	min-height: 0;
-	height: 100vh;
-	max-height: 100vh;
 }
 
 input, textarea, select, button {
@@ -110,8 +111,21 @@ html {
 *::after {
 	box-sizing: inherit;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+	height: 100%;
+	line-height: 1 !important;
+}
+
+body {
+	margin: 0;
+	font-family: 'boschsans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+	min-width: 0;
+	width: 100vw;
+	max-width: 100vw;
+	min-height: 0;
+	height: 100vh;
+	max-height: 100vh;
+}
 
 // custom dialog
 mat-dialog-container {

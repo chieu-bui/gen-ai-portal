@@ -1,7 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, Observer } from "rxjs";
+import { Observable } from "rxjs";
 
+export interface IModelAIInfo {
+    id: string;
+    meta: {
+        knowledge: any[];
+    };
+}
 export interface IModelAI {
     id: string;
     name: string;
@@ -9,7 +15,7 @@ export interface IModelAI {
     created: number;
     owned_by: string;
     pipe?: any;
-    info?: any;
+    info?: IModelAIInfo;
     actions?: any[];
 }
 

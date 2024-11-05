@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { Unsubscriber, untilCmpDestroyed } from '@shared/decorator';
 import { BCChatComponent } from '@shared/components';
-import { IModelAI, IModelAIData, ModelAIService } from '@components/main/services/ai-models.service';
+import { IModelAI, IModelAIData, IModelAIInfo, ModelAIService } from '@components/main/services/ai-models.service';
 import { SupergraphicComponent } from '@shared/components/supergraphic/supergraphic.component';
 import { BCTruncateComponent } from '@shared/components/bc-truncate/bc-truncate.component';
 import { BCDropdownModule } from '@shared/components/bc-dropdown/bc-dropdown.module';
@@ -29,6 +29,7 @@ import { BCButtonComponent } from '@shared/components/bc-button/bc-button.compon
 export class MainComponent implements OnInit {
     
     public chatId: string;
+    public knowledge: IModelAIInfo;
     public chatList: IChatItem[];
     public modelList: IModelAI[];
     public modelSelected: string;
@@ -57,6 +58,8 @@ export class MainComponent implements OnInit {
         .subscribe( ( [ chatList, modeAIData ] : [ IChatItem[], IModelAIData ] ) => {
             this.modelList = modeAIData.data;
             this.chatList = chatList;
+
+            if ( !chatList?.length ) return;
 
             this.changeChatWindow( _.first( chatList )?.id );
         } );

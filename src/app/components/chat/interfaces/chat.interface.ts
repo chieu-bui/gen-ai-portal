@@ -50,4 +50,5 @@ export interface IPayloadChatComplete {
     chat_id: string;
     id: string;
     signal: AbortSignal;
+    files?: any[];
 }

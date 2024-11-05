@@ -107,6 +107,7 @@ export class BCChatComponent implements OnChanges, OnInit {
             chat_id: this.activeChatId,
             stream: true,
             model: this.modelSelectedControl.getRawValue(),
+            files: _.find( this.modelList, ( model: IModelAI ) => model.id === this.modelSelected )?.info?.meta?.knowledge || [],
             messages: this.messages,
             signal: controller.signal,
         };

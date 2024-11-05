@@ -24,6 +24,14 @@
         background-color: var(--bosch-gray-95);
         width: 90%;
         margin: 0 auto;
+        position: relative;
+
+        .scroll-down-icon {
+            position: absolute;
+            bottom: 70px;
+            transform: translateX(50%);
+            width: 100%;
+        }
 
         .custom-icon {
             font-size: 35px;
